@@ -1,5 +1,4 @@
 'use  client';
-
 import React, { useState } from 'react';
 import {
   Collapse,
@@ -15,6 +14,7 @@ import {
   DropdownItem
 } from 'reactstrap';
 import { useUser } from '@auth0/nextjs-auth0/client';
+
 
 import PageLink from './PageLink';
 import AnchorLink from './AnchorLink';
@@ -41,12 +41,12 @@ const NavBar = () => {
                 <>
                   <NavItem>
                     <PageLink href="/csr" className="nav-link" testId="navbar-csr">
-                      Client-side rendered page
+                      <img src='./images/notificacion.png' width={"40px"} height={"40px"}></img>
                     </PageLink>
                   </NavItem>
                   <NavItem>
                     <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
-                      Server-side rendered page
+                      Link 3
                     </PageLink>
                   </NavItem>
                   <NavItem>
