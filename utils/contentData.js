@@ -1,27 +1,27 @@
 const contentData = [
   {
-    title: 'Configure Other Identity Providers',
-    link: 'https://auth0.com/docs/identityproviders',
+    title: 'Publicar Tweets',
+    link: 'https://owl.com/docs/publish-tweets', // Cambia el enlace según sea necesario
     description:
-      'Auth0 supports social providers as Facebook, Twitter, Instagram and 100+, Enterprise providers as Microsoft Office 365, Google Apps, Azure, and more. You can also use any OAuth2 Authorization Server.'
+      'Comparte tus pensamientos y experiencias en tiempo real con tus seguidores publicando tweets fácilmente.'
   },
   {
-    title: 'Enable Multifactor Authentication',
-    link: 'https://auth0.com/docs/mfa',
+    title: 'Seguir a Tus Amigos',
+    link: 'https://owl.com/docs/follow-friends', // Cambia el enlace según sea necesario
     description:
-      'Add an extra layer of security by enabling Multi-factor Authentication, requiring your users to provide more than one piece of identifying information. Push notifications, authenticator apps, SMS, and DUO Security are supported.'
+      'Conéctate con amigos y otras personas interesantes siguiendo sus cuentas y mantente al tanto de sus publicaciones.'
   },
   {
-    title: 'Attack Protection',
-    link: 'https://auth0.com/docs/attack-protection',
+    title: 'Chatear en Tiempo Real',
+    link: 'https://owl.com/docs/chat', // Cambia el enlace según sea necesario
     description:
-      'Auth0 can detect anomalies and stop malicious attempts to access your application. Attack protection can alert you and your users of suspicious activity, as well as block further login attempts.'
+      'Inicia conversaciones privadas o en grupo con tus amigos para compartir ideas y mantenerse en contacto.'
   },
   {
-    title: 'Learn About Rules',
-    link: 'https://auth0.com/docs/rules',
+    title: 'Notificaciones Personalizadas',
+    link: 'https://owl.com/docs/notifications', // Cambia el enlace según sea necesario
     description:
-      "Rules are JavaScript functions that execute when a user authenticates to your application. They run once the authentication process is complete, and you can use them to customize and extend Auth0's capabilities."
+      'Recibe notificaciones sobre interacciones importantes, como nuevos seguidores, menciones y respuestas a tus tweets.'
   }
 ];
 
