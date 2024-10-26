@@ -1,6 +1,6 @@
 const UserProfile = ({ user, userHandle }) => (
     <div>
-        <img src={user.avatar} alt={`${user.name}'s avatar`} />
+        <img src={user.picture} alt={`${user.name}'s avatar`} />
         <span>{user.name} @{userHandle}</span>
     </div>
 );

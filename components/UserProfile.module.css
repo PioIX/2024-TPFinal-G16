@@ -1,0 +1,22 @@
+.userProfile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.userProfile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.userProfile span {
+    font-size: 14px;
+    color: #657786;
+}
+
+.userProfile span:first-child {
+    font-weight: bold;
+    color: #14171a;
+}
