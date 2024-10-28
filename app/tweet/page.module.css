@@ -10,5 +10,14 @@
 .tweetPage h1 {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 20px;
+    font-size: 1.5 rem; /* Ajusta el tamaño según sea necesario */
+    margin: 0; /* Elimina el margen por defecto */
+    
 }
+.header {
+    display: flex;
+    justify-content: center; /* Centra los encabezados horizontalmente */
+    gap: 40px; /* Espacio entre los encabezados */
+    margin-bottom: 20px; /* Espacio debajo del encabezado */
+}
+
