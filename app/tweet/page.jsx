@@ -13,17 +13,21 @@ import TitleButton from "../../components/TitleButton"
 const TweetPage = () => {
     const { user, isLoading } = useUser();
     console.log(user);
+    function handleParaTiClick(){
+        
+    }
+    function handleSiguiendoClick(){
+
+    }
 
     return (
         <div className={styles.tweetPage}>
             <div className={styles.header}>
-                <div className={styles.tweetTitles}>
-                    <TitleButton/><h1>Para ti</h1>
-                </div>
-                <div className={styles.tweetTitles}>
-                    <TitleButton/><h1>Siguiendo</h1> {/* Encabezado agregado al lado */}
-                </div>
+            <div>
+                <TitleButton text="Para ti" onClick={handleParaTiClick} />
+                <TitleButton text="Siguiendo" onClick={handleSiguiendoClick} />
             </div>
+        </div>
             <Feed user={user} />
         </div>
     );

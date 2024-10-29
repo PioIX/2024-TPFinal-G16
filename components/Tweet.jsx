@@ -9,6 +9,7 @@ const Tweet = ({
     user,
     userHandle,
     content,
+    contentType,
     media,
     likesAmount,
     retweetsAmount,
