@@ -38,6 +38,7 @@ const TweetPage = () => {
                 </div>
             </div>
             <Feed user={user} />
+            
         </div>
     );
 };

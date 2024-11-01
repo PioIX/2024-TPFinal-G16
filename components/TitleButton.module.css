@@ -5,9 +5,9 @@
     color: #1DA1F2; /* Color similar a Twitter */
     cursor: pointer; /* Cambia el cursor al pasar por encima */
     padding: 10px; /* Espaciado interno */
-    text-align: left; /* Alinear texto a la izquierda */
+    text-align: left; 
 }
 
 .titleButton:hover {
-    text-decoration: underline; /* Subrayar al pasar el mouse */
+    text-decoration: underline; 
 }
