@@ -1,0 +1,17 @@
+.interactions {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #657786;
+    border-top: 1px solid #e1e8ed;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.interactions span {
+    cursor: pointer;
+}
+
+.interactions span:hover {
+    color: #1da1f2;
+}
