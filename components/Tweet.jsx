@@ -4,35 +4,14 @@ import UserProfile from "./UserProfile";
 import Media from "./Media";
 import Interactions from "./Interactions";
 
-const Tweet = ({
-    id,
-    user,
-    userHandle,
-    content,
-    contentType,
-    media,
-    likesAmount,
-    retweetsAmount,
-    commentsAmount,
-    savesAmount,
-    time,
-    date,
-    isLiked,
-    isRetweeted,
-    replyingToUser,
-}) => {
+const Tweet = ({ user, userHandle, content, media }) => {
     return (
         <div className={styles.tweet}>
             <UserProfile user={user} userHandle={userHandle} />
             <p>{content}</p>
             {media && <Media media={media} />}
-            <Interactions
-                likes={likesAmount}
-                retweets={retweetsAmount}
-                comments={commentsAmount}
-                saves={savesAmount}
-            />
-            <span>{time} · {date}</span>
+            <Interactions />
+            <span>5 min · 25 de octubre de 2024</span>
         </div>
     );
 };

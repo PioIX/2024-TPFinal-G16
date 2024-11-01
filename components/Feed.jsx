@@ -1,9 +1,8 @@
 import React from "react";
 import styles from "./Feed.module.css";
-import Tweet from "./Tweet"
+import Tweet from "./Tweet";
 
-const Feed = ({ user, userHandle, content, media }) => {
-
+const Feed = ({ user }) => {
     const tweetData = {
         id: 1,
         user: {
