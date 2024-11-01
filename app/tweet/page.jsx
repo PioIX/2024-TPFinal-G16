@@ -32,7 +32,7 @@ const TweetPage = () => {
     return (
         <div className={styles.tweetPage}>
             <div className={styles.header}>
-                <div>
+                <div className={styles.titleContainer}>
                     <TitleButton text="Para ti" onClick={handleParaTiClick} />
                     <TitleButton text="Siguiendo" onClick={handleSiguiendoClick} />
                 </div>
