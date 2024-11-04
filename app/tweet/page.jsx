@@ -12,21 +12,21 @@ const TweetPage = () => {
     const { user, isLoading, error } = useUser();
 
     function handleParaTiClick() {
-        // Lógica para el botón "Para ti"
+        // Logic for "Para ti" button
     }
 
     function handleSiguiendoClick() {
-        // Lógica para el botón "Siguiendo"
+        // Logic for "Siguiendo" button
     }
 
-    // Manejo de carga
+    // Handling loading state
     if (isLoading) {
-        return <Loading />; // Componente de carga
+        return <Loading />; // Loading component
     }
 
-    // Manejo de errores
+    // Handling error state
     if (error) {
-        return <ErrorMessage message={error.message} />; // Componente para mostrar errores
+        return <ErrorMessage message={error.message} />; // Error component
     }
 
     return (
@@ -38,9 +38,10 @@ const TweetPage = () => {
                 </div>
             </div>
             <Feed user={user} />
-            
+            {/* Removed Comment component as it's handled in Feed */}
         </div>
     );
 };
 
 export default TweetPage;
+    
