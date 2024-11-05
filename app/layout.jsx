@@ -1,6 +1,6 @@
 'use client';
 
-import './globals.css';
+
 import NavBar from '../components/NavBar';
 import { Container } from 'reactstrap';
 import Footer from '../components/Footer';
