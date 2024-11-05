@@ -3,6 +3,7 @@ import styles from "./Tweet.module.css";
 import UserProfile from "./UserProfile";
 import Media from "./Media";
 import Interactions from "./Interactions";
+import Input from "./Input";
 
 const Tweet = ({ user, userHandle, content, media }) => {
     return (
@@ -14,6 +15,7 @@ const Tweet = ({ user, userHandle, content, media }) => {
                 <Interactions />
             </div>
             <span>5 min · 25 de octubre de 2024</span>
+            <Input></Input>
         </div>
     );
 };

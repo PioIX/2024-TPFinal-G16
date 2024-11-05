@@ -1,0 +1,20 @@
+.Input {
+    width: 100%;
+    max-width: 600px;  /* Limita el ancho máximo */
+    padding: 12px 20px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box; /* Asegura que el padding no afecte al ancho */
+    margin: 0 auto; /* Centra el input */
+    transition: border-color 0.3s ease;
+}
+
+.Input:focus {
+    outline: none;
+    border-color: #0073e6;
+}
+
+.Input::placeholder {
+    color: #aaa;
+}
