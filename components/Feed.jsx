@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Feed.module.css";
 import Tweet from "./Tweet";
 import Comment from "./Comment";
+import { useState } from "react";
 
 
 const Feed = ({ user }) => {
@@ -42,7 +43,7 @@ const Feed = ({ user }) => {
         isRetweeted: false,
         
     };
-    const [comments, setComment] = useState()
+    const [comments, setComment] = useState([])
 
     const handleLike = () => {
         setTweetData((prev) => ({

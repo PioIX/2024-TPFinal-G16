@@ -5,14 +5,9 @@
     color: #238636; /* Color similar a Twitter */
     cursor: pointer; /* Cambia el cursor al pasar por encima */
     padding: 10px; /* Espaciado interno */
-<<<<<<< HEAD
     text-align: center; /* Alinear texto a la izquierda */
     width: 50%;
-=======
-    text-align: left; 
->>>>>>> 4b05c88c381e66830e2c111c51adc69eb09ff16f
 }
-
 .titleButton:hover {
     text-decoration: underline; 
 }
