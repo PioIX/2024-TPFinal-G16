@@ -25,3 +25,8 @@
 .titleContainer{
     width: 100%;
 }
+.Hr{
+    border: none;
+    border-top: 2px solid green; /* Adjust color and thickness as needed */
+    margin: 0 10px; /* Adjust spacing around the line */
+}

@@ -35,6 +35,7 @@ const TweetPage = () => {
                 <div className={styles.titleContainer}>
                     <TitleButton text="Para ti" onClick={handleParaTiClick} />
                     <TitleButton text="Siguiendo" onClick={handleSiguiendoClick} />
+                    <hr className={styles.Hr}></hr>
                 </div>
             </div>
             <Feed user={user} />

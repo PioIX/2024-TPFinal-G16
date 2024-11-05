@@ -10,7 +10,9 @@ const Tweet = ({ user, userHandle, content, media }) => {
             <UserProfile user={user} userHandle={userHandle} />
             <p>{content}</p>
             {media && <Media media={media} />}
+            <div className={styles.InteractionSpace}>
                 <Interactions />
+            </div>
             <span>5 min · 25 de octubre de 2024</span>
         </div>
     );
