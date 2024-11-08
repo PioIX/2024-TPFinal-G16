@@ -24,17 +24,19 @@ const NavBar = () => {
   const { user, isLoading } = useUser();
   const toggle = () => setIsOpen(!isOpen);
 
+  const backgroundColor = 'dark' === 'dark' ? '#1da1f2' : '#1da1f2';  
+
   return (
     <div className="nav-container" data-testid="navbar">
-      <Navbar color="light" light expand="md">
+      <Navbar style={{ backgroundColor: '#151b23', color: '#238636'}} expand='md'>
         <Container>
           
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle" />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar data-testid="navbar-items">
               <NavItem>
-                <PageLink href="/" className="nav-link" testId="navbar-home">
-                  Home
+                <PageLink href="/home" className="nav-link" testId="navbar-home">
+                  
                 </PageLink>
               </NavItem>
               {user && (
