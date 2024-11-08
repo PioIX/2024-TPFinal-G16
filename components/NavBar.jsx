@@ -43,17 +43,23 @@ const NavBar = () => {
                 <>
                   <NavItem>
                     <PageLink href="/csr" className="nav-link" testId="navbar-csr">
-                      <img src='./images/notificacion.png' width={"40px"} height={"40px"}></img>
-                    </PageLink>
-                  </NavItem>
-                  <NavItem>
-                    <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
-                      Link 3
+                      <img src='./images/home.png' width={"50px"} height={"50px"}></img>
                     </PageLink>
                   </NavItem>
                   <NavItem>
                     <PageLink href="/external" className="nav-link" testId="navbar-external">
-                      External API
+                      <img src='./images/lupa.png' width={"50px"} height={"50px"}></img>
+                    </PageLink>
+                  </NavItem>
+                  <img src='./images/logo.png' width={"150px"} height={"70px"}></img>
+                  <NavItem>
+                    <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
+                      <img src='./images/notificacion.png' width={"55px"} height={"55px"}></img>
+                    </PageLink>
+                  </NavItem>
+                  <NavItem>
+                    <PageLink href="/external" className="nav-link" testId="navbar-external">
+                      <img src='./images/chat.png' width={"50px"} height={"50px"}></img>
                     </PageLink>
                   </NavItem>
                 </>
