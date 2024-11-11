@@ -18,6 +18,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 import PageLink from './PageLink';
 import AnchorLink from './AnchorLink';
+import styles from './Header.module.css';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,12 +34,7 @@ const NavBar = () => {
           
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle" />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="mr-auto" navbar data-testid="navbar-items">
-              <NavItem>
-                <PageLink href="/home" className="nav-link" testId="navbar-home">
-                  
-                </PageLink>
-              </NavItem>
+            <Nav className={styles.mrAuto} navbar data-testid="navbar-items">
               {user && (
                 <>
                   <NavItem>
