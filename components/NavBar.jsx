@@ -146,7 +146,7 @@ const NavBar = () => {
                   <AnchorLink
                     href="/api/auth/logout"
                     className="btn btn-link p-0"
-                    icon="power-off"
+                    icon="fa-solid fa-power-off"
                     testId="navbar-logout-mobile">
                     Log out
                   </AnchorLink>

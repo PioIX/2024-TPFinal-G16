@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Media.module.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 
 const Media = ({ media }) => {
     const [fullscreenImage, setFullscreenImage] = useState(null);
@@ -40,7 +39,7 @@ const Media = ({ media }) => {
                             className={styles.fullscreenImage}
                         />
                         <button className={styles.closeButton} onClick={closeFullscreen}>
-                            <FontAwesomeIcon icon={faTimes} />
+                            <MonitorHeartIcon />
                         </button>
                     </div>
                 </div>
