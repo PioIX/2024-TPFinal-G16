@@ -1,13 +1,13 @@
-.titleButton {
+.TitleButton {
     background-color: transparent; /* Sin fondo */
-    border: none; /* Sin borde */
+    border  : none; /* Sin borde */
     font-size: 18px; /* Tamaño de fuente */
-    color: #1DA1F2; /* Color similar a Twitter */
+    color: #238636; /* Color similar a Twitter */
     cursor: pointer; /* Cambia el cursor al pasar por encima */
     padding: 10px; /* Espaciado interno */
-    text-align: left; /* Alinear texto a la izquierda */
+    text-align: center; /* Alinear texto a la izquierda */
+    width: 50%;
 }
-
 .titleButton:hover {
-    text-decoration: underline; /* Subrayar al pasar el mouse */
+    text-decoration: underline; 
 }

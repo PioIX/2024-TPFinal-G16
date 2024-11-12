@@ -18,40 +18,44 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 import PageLink from './PageLink';
 import AnchorLink from './AnchorLink';
+import styles from './Header.module.css';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isLoading } = useUser();
   const toggle = () => setIsOpen(!isOpen);
 
+  const backgroundColor = 'dark' === 'dark' ? '#1da1f2' : '#1da1f2';  
+
   return (
     <div className="nav-container" data-testid="navbar">
-      <Navbar color="light" light expand="md">
+      <Navbar style={{ backgroundColor: '#151b23', color: '#238636'}} expand='md'>
         <Container>
           
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle" />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="mr-auto" navbar data-testid="navbar-items">
-              <NavItem>
-                <PageLink href="/" className="nav-link" testId="navbar-home">
-                  Home
-                </PageLink>
-              </NavItem>
+            <Nav className={styles.mrAuto} navbar data-testid="navbar-items">
               {user && (
                 <>
                   <NavItem>
                     <PageLink href="/csr" className="nav-link" testId="navbar-csr">
-                      <img src='./images/notificacion.png' width={"40px"} height={"40px"}></img>
-                    </PageLink>
-                  </NavItem>
-                  <NavItem>
-                    <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
-                      Link 3
+                      <img src='./images/home.png' width={"50px"} height={"50px"}></img>
                     </PageLink>
                   </NavItem>
                   <NavItem>
                     <PageLink href="/external" className="nav-link" testId="navbar-external">
-                      External API
+                      <img src='./images/lupa.png' width={"50px"} height={"50px"}></img>
+                    </PageLink>
+                  </NavItem>
+                  <img src='./images/logo.png' width={"150px"} height={"70px"}></img>
+                  <NavItem>
+                    <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
+                      <img src='./images/notificacion.png' width={"55px"} height={"55px"}></img>
+                    </PageLink>
+                  </NavItem>
+                  <NavItem>
+                    <PageLink href="/external" className="nav-link" testId="navbar-external">
+                      <img src='./images/chat.png' width={"50px"} height={"50px"}></img>
                     </PageLink>
                   </NavItem>
                 </>
