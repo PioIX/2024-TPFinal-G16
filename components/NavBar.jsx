@@ -19,10 +19,12 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import PageLink from './PageLink';
 import AnchorLink from './AnchorLink';
 import styles from './Header.module.css';
+import Button from './Button';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isLoading } = useUser();
+  const [isClicked, setIsClicked] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
   const backgroundColor = 'dark' === 'dark' ? '#1da1f2' : '#1da1f2';  
@@ -43,9 +45,15 @@ const NavBar = () => {
                     </PageLink>
                   </NavItem>
                   <NavItem>
+                  <Button onClick={setIsClicked(true)}>
                     <PageLink href="/external" className="nav-link" testId="navbar-external">
-                      <img src='./images/lupa.png' width={"50px"} height={"50px"}></img>
+                    isClicked ? (
+                      <img src='./images/lupaClicked.png' width="50px" height="50px" />
+                      ) : (
+                     <img src='./images/lupa.png' width="50px" height="50px" />
+                      )
                     </PageLink>
+                  </Button> 
                   </NavItem>
                   <img src='./images/logo.png' width={"150px"} height={"70px"}></img>
                   <NavItem>
