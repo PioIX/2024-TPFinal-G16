@@ -6,4 +6,6 @@
   text-align: center;      /* Centra el texto dentro del footer */
   padding: 20px;
   min-height: 5rem;
+  background: #151b23;
+  color:#ffffff;
 }

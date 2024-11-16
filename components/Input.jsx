@@ -14,6 +14,7 @@ export default function Input({ text }) {
                 className={styles.Input}
                 value={inputValue}
                 onChange={handleChange}
+                placeholder={"Escriba aquí"}
             />
             <p>{text}</p>
             <p>Valor ingresado: {inputValue}</p>

@@ -1,4 +1,4 @@
-'use  client';
+'use client';
 import {
   Collapse,
   Container,
@@ -23,21 +23,35 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isLoading } = useUser();
   const toggle = () => setIsOpen(!isOpen);
-  const [image, setImage] = useState('/images/lupa.png');
-  const pathname = usePathname();
+  const [imageLupa, setImageLupa] = useState('/images/lupa.png');
+  const [imageHome, setImageHome] = useState('/images/home.png');
+  const [imageChat, setImageChat] = useState('/images/chat.png');
+  const [imageNotification, setImageNotification] = useState('/images/notification.png');
 
-  const handleImageChange = () => {
-    setImage('/images/lupaClicked.png');
+  const handleImageLupaChange = () => {
+    setImageLupa('/images/lupaClicked.png');
+    setImageHome('/images/home.png');
+    setImageChat('/images/chat.png');
+    setImageNotification('/images/notification.png')
   };
-
-  useEffect(() => {
-    const lastPartOfPath = pathname.split('/').pop();  // Obtenemos la última parte de la URL
-
-    if (lastPartOfPath) {
-      // Si la última parte de la URL cambia, restablecemos la imagen
-      setImage('/images/lupa.png');
-    }
-  }, [pathname]);
+  const handleImageHomeChange = () => {
+    setImageHome('/images/homeClicked.png');
+    setImageChat('/images/chat.png');
+    setImageNotification('/images/notification.png')
+    setImageLupa('/images/lupa.png')
+  };
+  const handleImageChatChange = () => {
+    setImageChat('/images/chatClicked.png');
+    setImageHome('/images/home.png')
+    setImageNotification('/images/notification.png')
+    setImageLupa('/images/lupa.png')
+  };
+  const handleImageNotificationChange = () => {
+    setImageNotification('/images/notificationClicked.png');
+    setImageHome('/images/home.png');
+    setImageChat('/images/chat.png');
+    setImageLupa('/images/lupa.png')
+  };
 
   return (
     <div className="nav-container" data-testid="navbar">
@@ -50,27 +64,33 @@ const NavBar = () => {
               {user && (
                 <>
                   <NavItem>
-                    <PageLink href="/csr" className="nav-link" testId="navbar-csr">
-                      <img src='./images/home.png' width={"50px"} height={"50px"}></img>
-                    </PageLink>
-                  </NavItem>
-                  <NavItem>
-                    <PageLink href="/external" className="nav-link" testId="navbar-external">
-                    <div onClick={handleImageChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                      <img src={image} width="50px" height="50px" alt={"lupa"}/>
+                    <div onClick={handleImageHomeChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                      <PageLink href="/csr" className="nav-link" testId="navbar-csr">
+                          <img src={imageHome} width={"57px"} height={"57px"}></img>
+                      </PageLink>
                     </div>
-                    </PageLink>
-                  </NavItem>
-                  <img src='./images/logo.png' width={"150px"} height={"70px"}></img>
-                  <NavItem>
-                    <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
-                      <img src='./images/notificacion.png' width={"55px"} height={"55px"}></img>
-                    </PageLink>
                   </NavItem>
                   <NavItem>
-                    <PageLink href="/external" className="nav-link" testId="navbar-external">
-                      <img src='./images/chat.png' width={"50px"} height={"50px"}></img>
-                    </PageLink>
+                    <div onClick={handleImageLupaChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                      <PageLink href="/external" className="nav-link" testId="navbar-external">
+                          <img src={imageLupa} width="57px" height="57px"/>
+                      </PageLink>
+                    </div>
+                  </NavItem>
+                  <img src='./images/logo.png' width={"200px"} height={"130px"}></img>
+                  <NavItem>
+                    <div onClick={handleImageNotificationChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                      <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
+                          <img src={imageNotification} width={"64px"} height={"64px"}></img>
+                      </PageLink>
+                    </div>
+                  </NavItem>
+                  <NavItem>
+                    <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                      <PageLink href="/external" className="nav-link" testId="navbar-external">
+                        <img src={imageChat} width={"57px"} height={"57px"}></img>
+                      </PageLink>
+                    </div>
                   </NavItem>
                 </>
               )}
@@ -94,8 +114,8 @@ const NavBar = () => {
                       src={user.picture}
                       alt="Profile"
                       className="nav-user-profile rounded-circle"
-                      width="50"
-                      height="50"
+                      width="57"
+                      height="57"
                       decode="async"
                       data-testid="navbar-picture-desktop"
                     />
