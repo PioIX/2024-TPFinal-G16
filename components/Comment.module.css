@@ -2,7 +2,19 @@
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: #238636;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
 }
+.comment:hover {
+    background-color: #1a5a28;
+}
+
 
 .avatar {
     width: 40px;
@@ -21,3 +33,4 @@
     font-size: 0.8rem;
     color: gray;
 }
+

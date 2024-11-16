@@ -30,3 +30,30 @@
     border-top: 2px solid green; /* Adjust color and thickness as needed */
     margin: 0 10px; /* Adjust spacing around the line */
 }
+.inputContainer {
+    width: 100%;
+    max-width: 600px; /* Igual al tamaño máximo del tweet */
+    padding: 15px;    /* Igual al padding del tweet */
+    font-size: 15px;  /* Mismo tamaño de fuente */
+    border-radius: 10px;
+    background-color: #151b23;
+    color: #ffffff;
+    outline: none;
+}
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #238636;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+.comment:hover {
+    background-color: #1a5a28;
+}

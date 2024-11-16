@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from './Input.module.css'; // Asegúrate de que la ruta del estilo sea correcta
+import styles from './Input.module.css';
 
-export default function Input({ text }) {
+export default function Input({ placeholder }) {
     const [inputValue, setInputValue] = useState('');
 
     const handleChange = (event) => {
@@ -14,9 +14,9 @@ export default function Input({ text }) {
                 className={styles.Input}
                 value={inputValue}
                 onChange={handleChange}
+                placeholder={placeholder} // Utiliza el placeholder
             />
-            <p>{text}</p>
-            <p>Valor ingresado: {inputValue}</p>
         </div>
     );
 }
+    
