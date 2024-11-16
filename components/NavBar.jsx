@@ -1,5 +1,4 @@
 'use  client';
-import React, { useState } from 'react';
 import {
   Collapse,
   Container,
@@ -14,20 +13,31 @@ import {
   DropdownItem
 } from 'reactstrap';
 import { useUser } from '@auth0/nextjs-auth0/client';
-
-
+import { usePathname } from 'next/navigation';
 import PageLink from './PageLink';
 import AnchorLink from './AnchorLink';
 import styles from './Header.module.css';
-import Button from './Button';
+import { useState, useEffect } from 'react';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, isLoading } = useUser();
-  const [isClicked, setIsClicked] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const [image, setImage] = useState('/images/lupa.png');
+  const pathname = usePathname();
 
-  const backgroundColor = 'dark' === 'dark' ? '#1da1f2' : '#1da1f2';  
+  const handleImageChange = () => {
+    setImage('/images/lupaClicked.png');
+  };
+
+  useEffect(() => {
+    const lastPartOfPath = pathname.split('/').pop();  // Obtenemos la última parte de la URL
+
+    if (lastPartOfPath) {
+      // Si la última parte de la URL cambia, restablecemos la imagen
+      setImage('/images/lupa.png');
+    }
+  }, [pathname]);
 
   return (
     <div className="nav-container" data-testid="navbar">
@@ -45,15 +55,11 @@ const NavBar = () => {
                     </PageLink>
                   </NavItem>
                   <NavItem>
-                  <Button onClick={setIsClicked(true)}>
                     <PageLink href="/external" className="nav-link" testId="navbar-external">
-                    isClicked ? (
-                      <img src='./images/lupaClicked.png' width="50px" height="50px" />
-                      ) : (
-                     <img src='./images/lupa.png' width="50px" height="50px" />
-                      )
+                    <div onClick={handleImageChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                      <img src={image} width="50px" height="50px" alt={"lupa"}/>
+                    </div>
                     </PageLink>
-                  </Button> 
                   </NavItem>
                   <img src='./images/logo.png' width={"150px"} height={"70px"}></img>
                   <NavItem>
