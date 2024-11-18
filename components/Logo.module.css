@@ -1,0 +1,15 @@
+.Img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+.ImgContainer{
+    width: 10em;
+    height: 10em;
+    display: "flex";
+    align-items: "center";
+    padding: 0;
+    margin: 0;
+}
