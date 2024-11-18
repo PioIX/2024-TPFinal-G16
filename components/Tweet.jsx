@@ -9,14 +9,16 @@ import Comment from "./Comment";
 const Tweet = ({ user, userHandle, content, media }) => {
     return (
         <div className={styles.tweet}>
-            <UserProfile user={user} userHandle={userHandle} />
+            <div className={styles.InfoTweet}>
+                <UserProfile user={user} userHandle={userHandle} />
+                <span>5 min · 25 de octubre de 2024</span>
+            </div>
             <p>{content}</p>
             {media && <Media media={media} />}
             <div className={styles.InteractionSpace}>
                 <Interactions />
             </div>
-            <span>5 min · 25 de octubre de 2024</span>
-            
+            <Input></Input>
         </div>
     );
 };

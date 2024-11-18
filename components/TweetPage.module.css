@@ -1,0 +1,13 @@
+.Html{
+    height: 100%;
+}
+#__next {
+  height: 100%; /* Para asegurar que el contenedor de Next.js ocupe toda la altura */
+}
+
+/* Ajustar el Main para que también ocupe el 100% */
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

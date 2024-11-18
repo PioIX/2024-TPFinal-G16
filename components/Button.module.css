@@ -1,0 +1,15 @@
+.Button {
+    padding: 10px;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .Button img {
+    max-width: 100%;
+    height: auto;
+  }
+  

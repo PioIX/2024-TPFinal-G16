@@ -1,0 +1,11 @@
+/* Estilo para centrar el texto */
+.footer {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+  text-align: center;      /* Centra el texto dentro del footer */
+  padding: 20px;
+  min-height: 5rem;
+  background: #151b23;
+  color:#ffffff;
+}

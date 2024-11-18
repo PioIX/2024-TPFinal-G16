@@ -1,12 +1,12 @@
 import React from 'react';
+import styles from './Footer.module.css';  // Estilos para el footer
 
-const Footer = () => (
-  <footer className="bg-light p-3 text-center" data-testid="footer">
-    <div className="logo" data-testid="footer-logo" />
-    <p data-testid="footer-text">
-      Sample project provided by <a href="https://auth0.com">Auth0</a>
-    </p>
-  </footer>
-);
+const Footer = () => {
+  return (  
+    <footer className={styles.footer}>
+        © 2024 Owl. Todos los derechos reservados.
+    </footer>
+  );
+};
 
 export default Footer;
