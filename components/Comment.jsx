@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from './Comment.module.css';
 
 const Comment = ({ comments }) => {
     const [newComment, setNewComment] = useState("");
@@ -16,7 +17,8 @@ const Comment = ({ comments }) => {
         <div>
             <h4>Comentarios:</h4>
             <form onSubmit={handleSubmit}>
-                <input 
+                <input
+                    
                     type="text" 
                     value={newComment} 
                     onChange={(e) => setNewComment(e.target.value)} 

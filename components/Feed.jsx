@@ -77,21 +77,24 @@ const Feed = ({ user }) => {
 
     return (
         <div className={styles.feed}>
-            <Tweet {...tweetData} />
+            <Tweet {...tweetData} 
                 onLike={handleLike} 
                 onRetweet={handleRetweet} 
                 onSave={handleSave}
-                onAddComment={addComment} 
-            <Tweet {...tweetData} />
+                onAddComment={addComment}/>
+            <Comment comments={comments} user={user} addComment={addComment} />     
+            <Tweet {...tweetData} 
                 onLike={handleLike} 
                 onRetweet={handleRetweet} 
                 onSave={handleSave}
-                onAddComment={addComment} 
-            <Tweet {...tweetData} />
+                onAddComment={addComment}
+                /> 
+            <Comment comments={comments} user={user} addComment={addComment} />    
+            <Tweet {...tweetData} 
                 onLike={handleLike} 
                 onRetweet={handleRetweet} 
                 onSave={handleSave}
-                onAddComment={addComment} 
+                onAddComment={addComment} />
             <Comment comments={comments} user={user} addComment={addComment} />
         </div>
     );

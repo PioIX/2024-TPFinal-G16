@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 
-const connection = await mysql.createConnection({
+const db = await mysql.createConnection({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
@@ -9,4 +9,4 @@ const connection = await mysql.createConnection({
   charset: process.env.MYSQL_CHARSET
 });
 
-export default connection;
+export default db;
