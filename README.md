@@ -2,6 +2,10 @@
 
 Owl es una red social inspirada en Twitter, donde los usuarios pueden compartir sus pensamientos, interactuar con publicaciones de otros y explorar contenido en tiempo real. El proyecto está construido con **Next.js** en el frontend y un **backend en Express** con conexión a una **base de datos SQL**.
 
+### Logo de la red social
+<img width="322" alt="Logo - OWL" src="https://github.com/user-attachments/assets/b5a58901-0f8f-439e-81de-d88676fd78a6">
+
+
 ## Requisitos
 
 Antes de comenzar, debes tener instalado lo siguiente:
