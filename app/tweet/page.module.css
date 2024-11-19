@@ -10,10 +10,10 @@
 .tweetPage h1 {
     font-size: 24px;
     font-weight: bold;
-    font-size: 1.5 rem; /* Ajusta el tamaño según sea necesario */
+    font-size: 1.5rem; /* Ajuste el tamaño según sea necesario */
     margin: 0; /* Elimina el margen por defecto */
-    
 }
+
 .header {
     display: flex;
     flex-direction: row;
@@ -22,48 +22,34 @@
     margin-bottom: 20px; /* Espacio debajo del encabezado */
     width: 100%;
 }
-.titleContainer{
+
+.titleContainer {
     width: 100%;
 }
-.Hr{
+
+.Hr {
     border: none;
-    border-top: 2px solid green; /* Adjust color and thickness as needed */
-    margin: 0 10px; /* Adjust spacing around the line */
+    border-top: 2px solid green; /* Ajusta color y grosor según sea necesario */
+    margin: 0 10px; /* Ajusta el espacio alrededor de la línea */
 }
+
 .inputContainer {
+    display: flex;                /* Cambiar a flex para que los elementos estén en fila */
+    align-items: center;          /* Alineación vertical centrada */
     width: 100%;
-    max-width: 600px; /* Igual al tamaño máximo del tweet */
-    padding: 15px;    /* Igual al padding del tweet */
-    font-size: 15px;  /* Mismo tamaño de fuente */
+    max-width: 600px;             /* Igual al tamaño máximo del tweet */
+    padding: 15px;
+    font-size: 15px;
     border-radius: 10px;
     background-color: #151b23;
     color: #ffffff;
     outline: none;
 }
-.comment {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 10px;
-    padding: 10px 20px;
-    font-size: 15px;
-    color: #ffffff;
-    background-color: #238636;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 10px;
-}
-.comment:hover {
-    background-color: #1a5a28;
-}
-
 
 .Input {
-    width: 100%;
-    max-width: 600px; /* Igual al tamaño máximo del tweet */
-    padding: 15px;    /* Igual al padding del tweet */
-    font-size: 15px;  /* Mismo tamaño de fuente */
+    flex: 1;                      /* El input ocupa el espacio disponible */
+    padding: 15px;
+    font-size: 15px;
     border: 1px solid #238636;
     border-radius: 10px;
     background-color: #151b23;
@@ -80,9 +66,41 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-left: 10px;
+    margin-left: 10px;            /* Espacio entre el input y el botón */
 }
 
 .postButton:hover {
     background-color: #1a5a28;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #238636;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.comment:hover {
+    background-color: #1a5a28;
+}
+
+/* Estilo del contenedor de cada tweet */
+.tweetContainer {
+    width: 100%;                 /* Se ajusta al 100% del contenedor */
+    max-width: 600px;            /* Igual que el input */
+    padding: 20px;               /* Relleno interno para el contenedor */
+    background-color: #151b23;
+    border-radius: 10px;
+    color: white;                /* Color del texto */
+    font-size: 15px;
+    margin-top: 20px;            /* Espacio encima del tweet */
+    margin-bottom: 20px;         /* Espacio entre cada tweet (debajo de cada uno) */
 }

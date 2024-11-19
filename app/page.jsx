@@ -29,7 +29,7 @@ export default function Index() {
             return;
         }
 
-        // Intenta parsear la respuesta como JSON
+
         try {
             const res = await response.json();
             console.log(res);
