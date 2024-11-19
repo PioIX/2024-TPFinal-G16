@@ -16,6 +16,9 @@ export default function Input({ placeholder }) {
                 onChange={handleChange}
                 placeholder={placeholder} // Utiliza el placeholder
             />
+            <button className={styles.postButton}>
+            Postear
+            </button>
         </div>
     );
 }

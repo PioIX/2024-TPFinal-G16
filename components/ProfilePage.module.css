@@ -1,0 +1,81 @@
+/* ProfilePage.module.css */
+
+.profilePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #238636;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.tweetsSection {
+    width: 100%;
+    max-width: 600px;
+}
+
+.tweetCard {
+    background-color: #151b23;
+    color: #ffffff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #238636;
+}
+
+.tweetCard span {
+    font-size: 0.8rem;
+    color: #657786;
+    display: block;
+    margin-top: 10px;
+} 
+
+.followButton {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.followButton:hover {
+    background-color: #1a8cd8;
+}
+
+.tweets {
+    margin-top: 20px;
+}
+
+.tweet {
+    background-color: #151b23;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.tweet span {
+    font-size: 12px;
+    color: #657786;
+}
