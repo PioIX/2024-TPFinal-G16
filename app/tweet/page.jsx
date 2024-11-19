@@ -112,7 +112,9 @@ const TweetPage = () => {
                 </button>
             </div>
 
+            <div className={styles.tweetContainer}>
             <Feed tweets={tweets} />
+            </div>
         </div>
     );
 };
