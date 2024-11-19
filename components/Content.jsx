@@ -6,12 +6,12 @@ import contentData from '../utils/contentData';
 
 const Content = () => (
   <div className="next-steps my-5" data-testid="content">
-    <h2 className="my-5 text-center" data-testid="content-title">
+    <h2 className="my-5 text-center" data-testid="content-title" style={{ color: 'white' }}>
       Qué puedo hacer en Owl?
     </h2>
     <Row className="d-flex justify-content-between" data-testid="content-items">
       {contentData.map((col, i) => (
-        <Col key={i} md={5} className="mb-4">
+        <Col key={i} md={5} className="mb-4" style={{ color: 'white' }}>
           <h6 className="mb-3">
             <a href={col.link}>
               <SearchIcon className="mr-2"  />

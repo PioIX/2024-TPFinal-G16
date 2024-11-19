@@ -7,7 +7,7 @@ const Logo = () => (
     <div>
       <img src='./images/loguito.png' width={"400px"} height={"500px"}></img>
     </div>
-    <div style={{display: "flex", flexDirection: "row", alignItems: "center", height: "25em"}}>
+    <div style={{display: "flex", flexDirection: "row", alignItems: "center", height: "15em", color:"#ffffff"}}>
       <h1 className="mb-4" data-testid="hero-title">
         Owl, donde tus ideas vuelan alto
       </h1>
