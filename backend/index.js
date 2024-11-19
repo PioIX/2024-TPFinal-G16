@@ -247,7 +247,7 @@ app.post('/retweet', async function (req, res) {
         if (retweetExists.length > 0) {
             // Eliminar el retweet existente
             await MySQL.makeQuery(`DELETE FROM RetweetsOwl WHERE tweetID = ? AND userID = ?`, [body.tweetID, body.userID]);
-            return res.send({ status: "ok", message: "Retweet removed successfully!" });
+            return res.send({ status: "ok", message: "Retweet removed successfully!", action: "removed" });
         } else {
             // Insertar un nuevo retweet
             const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -255,7 +255,7 @@ app.post('/retweet', async function (req, res) {
                 `INSERT INTO RetweetsOwl (tweetID, userID, creation) VALUES (?, ?, ?)`,
                 [body.tweetID, body.userID, creationDate]
             );
-            return res.send({ status: "ok", message: "Tweet retweeted successfully!" });
+            return res.send({ status: "ok", message: "Tweet retweeted successfully!", action: "added" });
         }
     } catch (error) {
         console.error('Error retweeting the tweet:', error);
@@ -263,6 +263,51 @@ app.post('/retweet', async function (req, res) {
     }
   });
   
+  app.post('/save', async function (req, res) {
+    try {
+        let body = req.body;
+
+        console.log('Received POST body:', body);  // Añadir console.log aquí para ver el body recibido
+
+        // Validación de los campos requeridos
+        if (!body.userID || !body.tweetID) {
+            console.log('ME FUI ACA: VALIDACION CAMPOS');
+            return res.status(400).send({ status: "error", message: "User 'userID' and 'tweetID' are required." });
+        }
+
+        // Verificar si el tweet existe
+        let tweetExists = await MySQL.makeQuery(`SELECT tweetID FROM TweetsOwl WHERE tweetID = ?`, [body.tweetID]);
+
+        if (tweetExists.length === 0) {
+            console.log('ME FUI ACA: VALIDACION TWEET');
+            return res.status(404).send({ status: "error", message: "Tweet not found" });
+        }
+
+        // Verificar si el usuario ya guardó el tweet
+        let saveExists = await MySQL.makeQuery(`SELECT * FROM SavesOwl WHERE tweetID = ? AND userID = ?`, [body.tweetID, body.userID]);
+
+        if (saveExists.length > 0) {
+            // Eliminar el save existente
+            await MySQL.makeQuery(`DELETE FROM SavesOwl WHERE tweetID = ? AND userID = ?`, [body.tweetID, body.userID]);
+            console.log('Save removed');
+            return res.send({ status: "ok", message: "Save removed successfully!", action: "removed" });
+        } else {
+            // Insertar un nuevo save
+            const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await MySQL.makeQuery(
+                `INSERT INTO SavesOwl (tweetID, userID, creation) VALUES (?, ?, ?)`,
+                [body.tweetID, body.userID, creationDate]
+            );
+            console.log('Tweet saved');
+            return res.send({ status: "ok", message: "Tweet saved successfully!", action: "added" });
+        }
+    } catch (error) {
+        console.log('ME FUI ACA: ERROR CATCH');  // Imprimir el error
+        console.error('Error saving the tweet:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while saving the tweet." });
+    }
+});
+
 
 app.get('/user/:sub/retweets', async function (req, res) {
     try {
