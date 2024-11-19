@@ -135,34 +135,60 @@ app.get('/user/:sub/tweets', async function (req, res) {
 app.get('/tweets', async function (req, res) {
     try {
         const userID = req.query.userID;  // Asumimos que el userID se pasa como parámetro de consulta
-  
-        // Obtener los tweets con la cantidad de likes, retweets, saves, comments y estado de interacción (booleano)
-        let tweets = await MySQL.makeQuery(`
-          SELECT t.*, 
-                 COALESCE((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID), 0) AS likesCount,
-                 COALESCE((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID), 0) AS retweetsCount,
-                 COALESCE((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID), 0) AS savesCount,
-                 COALESCE((SELECT COUNT(*) FROM CommentsOwl c WHERE c.tweetID = t.tweetID), 0) AS commentsCount,
-                 IF((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID AND l.userID = ?), true, false) AS isLiked,
-                 IF((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID AND r.userID = ?), true, false) AS isRetweeted,
-                 IF((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID AND s.userID = ?), true, false) AS isSaved
-          FROM TweetsOwl t
-          ORDER BY t.creation DESC
-        `, [userID, userID, userID]);
-  
-        if (tweets.length === 0) {
-            return res.status(404).send({ status: "error", message: "No tweets found" });
+        const type = req.query.type;
+
+        console.log('Received type:', type);  // Verifica que el tipo es correcto
+        console.log('UserID:', userID);      // Verifica que el userID es correcto
+
+        let query = `
+            SELECT t.*, 
+                   COALESCE((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID), 0) AS likesCount,
+                   COALESCE((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID), 0) AS retweetsCount,
+                   COALESCE((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID), 0) AS savesCount,
+                   COALESCE((SELECT COUNT(*) FROM CommentsOwl c WHERE c.tweetID = t.tweetID), 0) AS commentsCount,
+                   IF((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID AND l.userID = ?), true, false) AS isLiked,
+                   IF((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID AND r.userID = ?), true, false) AS isRetweeted,
+                   IF((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID AND s.userID = ?), true, false) AS isSaved
+            FROM TweetsOwl t
+        `;
+
+        if (type === 'followees') {
+            console.log('Type is followees'); // Verifica si entra en el bloque de followees
+            query += `
+                WHERE t.userID IN (SELECT followeeID FROM FollowsOwl WHERE followerID = ?)
+            `;
         }
-  
-        // Enviar los tweets con la cantidad de interacciones y el estado de interacción del usuario
+
+        query += ` ORDER BY t.creation DESC`;
+
+        console.log('Executing query:', query);  // Verifica la consulta generada
+
+        // Ejecutar la consulta con los parámetros correctos
+        if (type === 'followees') {
+            var tweets = await MySQL.makeQuery(query, [userID, userID, userID, userID]);
+        } else {
+            var tweets = await MySQL.makeQuery(query, [userID, userID, userID]);
+        }
+        
+        
+
+        console.log('Tweets fetched:', tweets);  // Verifica los resultados obtenidos
+
+        if (tweets.length === 0) {
+            tweets = []
+            console.log('No tweets found, returning empty array');
+            return res.send({ status: "ok", tweets });  // Devuelve un array vacío si no hay tweets
+        }
+
         res.send({ status: "ok", tweets });
     } catch (error) {
-        console.error('Error fetching tweets:', error);
+        console.error('Error fetching tweets:', error);  // Loguea el error detalladamente
         res.status(500).send({ status: "error", message: "An error occurred while fetching tweets." });
     }
-  });
-  
-  
+});
+
+
+
   
   
   
