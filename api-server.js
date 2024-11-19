@@ -38,6 +38,16 @@ const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
+app.post('/api/register', checkJwt, async (req, res) => {
+  res.send(req.auth)
+});
+
+app.get('/api/profile', checkJwt, (req, res) => {
+  const { sub, email, name } = req.auth;
+  res.json({ userId: sub, email, name });
+});
+
+
 app.get('/api/shows', checkJwt, (req, res) => {
   res.send({
     msg: 'Your access token was successfully validated!'

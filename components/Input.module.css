@@ -10,3 +10,19 @@
     color: #ffffff;
     outline: none;
 }
+
+.postButton {
+    padding: 10px 20px;
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #238636;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.postButton:hover {
+    background-color: #1a5a28;
+}
