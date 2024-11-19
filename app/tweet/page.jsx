@@ -17,8 +17,10 @@ const TweetPage = () => {
 
     useEffect(() => {
         const fetchTweets = async () => {
+            if (!user) return
+            
             try {
-                const response = await fetch('http://localhost:5001/tweets');
+                const response = await fetch(`http://localhost:5001/tweets?userID=${user.sub}`);
                 if (!response.ok) {
                     throw new Error('Error fetching tweets');
                 }
@@ -32,7 +34,7 @@ const TweetPage = () => {
         };
 
         fetchTweets();
-    }, []);
+    }, [user]);
 
     const handlePostTweet = async () => {
         console.log(newTweetContent)

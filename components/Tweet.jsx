@@ -6,7 +6,7 @@ import Interactions from "./Interactions";
 import Input from "./Input";
 import Comment from "./Comment";
 
-const Tweet = ({ user, userHandle, content, media }) => {
+const Tweet = ({ id, user, userHandle, content, media, likesCount, retweetsCount, commentsCount, savesCount, isLiked, isSaved, isRetweeted }) => {
     return (
         <div className={styles.tweet}>
             <div className={styles.InfoTweet}>
@@ -16,7 +16,7 @@ const Tweet = ({ user, userHandle, content, media }) => {
             <p>{content}</p>
             {media && <Media media={media} />}
             <div className={styles.InteractionSpace}>
-                <Interactions />
+                <Interactions likes={likesCount} comments={commentsCount} retweets={retweetsCount} saves={savesCount} tweetID={id} isLiked={isLiked} isSaved={isSaved} isRetweeted={isRetweeted}/>
             </div>
             <Input placeholder={"Que esta pasando?"}></Input>
         </div>

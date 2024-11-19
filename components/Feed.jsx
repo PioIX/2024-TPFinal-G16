@@ -10,6 +10,14 @@ const Feed = ({ tweets }) => {
                     userHandle={tweet.userID}
                     content={tweet.content}
                     media={tweet.mediaURL}
+                    id={tweet.tweetID}
+                    likesCount={tweet.likesCount}
+                    retweetsCount={tweet.retweetsCount}
+                    savesCount={tweet.savesCount}
+                    commentsCount={tweet.commentsCount}
+                    isLiked={tweet.isLiked}
+                    isRetweeted={tweet.isRetweeted}
+                    isSaved={tweet.isSaved}
                 />
             ))}
         </div>
