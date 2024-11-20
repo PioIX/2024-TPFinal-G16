@@ -14,6 +14,19 @@ const ProfilePage = ({ sub }) => {
     const [error, setError] = useState(null);
     const [following, setFollowing] = useState(false);
 
+    const [isClicked, setIsClicked] = useState(() => {
+        const savedState = localStorage.getItem('isClicked');
+        return savedState ? JSON.parse(savedState) : false;
+      });
+
+    const handleButtonChange = () => {
+        setIsClicked(true);
+    };
+    
+    useEffect(() => {
+        localStorage.setItem('isClicked', JSON.stringify(isClicked));
+      }, [isClicked])
+
     useEffect(() => {
         if (!sub) return;
 
@@ -133,7 +146,21 @@ const ProfilePage = ({ sub }) => {
                             <p>@{userProfile.nickname}</p>
                         </div>
                     </div>
-                    <button className={styles.followButton} onClick={handleFollowClick}>
+                    <div  style={{display: "flex", flexDirection:"row", gap: "20%"}}>
+                        <div style={{display: "flex", flexDirection:"row", alignItems:"center", alignContent:"center", textAlign:"center", gap: "5%"}}>
+                            <p style={{fontSize:"1.3em", fontWeight: "700"}}>Posts</p>
+                            <p style={{fontSize:"1.5em"}}>{userProfile.posts || "53"}</p>
+                        </div>
+                        <div style={{display: "flex", flexDirection:"row", alignItems:"center", alignContent:"center", textAlign:"center", gap: "5%"}}>
+                            <p style={{fontSize:"1.3em", fontWeight: "700"}}>Followers</p>
+                            <p style={{fontSize:"1.5em"}}>{userProfile.followers || "53"}</p>
+                        </div>
+                        <div style={{display: "flex", flexDirection:"row", alignItems:"center", alignContent:"center", textAlign:"center", gap: "5%"}}>
+                            <p style={{fontSize:"1.3em", fontWeight: "700"}}>Followed</p>
+                            <p style={{fontSize:"1.5em"}}>{userProfile.followed || "63"}</p>
+                        </div>
+                    </div>
+                    <button className={isClicked ? styles.followButtonClicked : styles.followButton} onClick={() => { handleFollowClick(); handleButtonChange(); }}>
                         {following ? 'Unfollow' : 'Follow'}
                     </button>
                     <div className={styles.bio}>
