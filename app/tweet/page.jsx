@@ -11,14 +11,17 @@ import styles from "./page.module.css";
 const TweetPage = () => {
     const { user, isLoading, error } = useUser();
     const [tweets, setTweets] = useState([]);
+    const [typeTweets, setTypeTweets] = useState("fyp");
     const [loadingTweets, setLoadingTweets] = useState(true);
     const [fetchError, setFetchError] = useState(null);
     const [newTweetContent, setNewTweetContent] = useState("");
 
     useEffect(() => {
         const fetchTweets = async () => {
+            if (!user) return
+            
             try {
-                const response = await fetch('http://localhost:5001/tweets');
+                const response = await fetch(`http://localhost:5001/tweets?userID=${user.sub}&type=${typeTweets}`);
                 if (!response.ok) {
                     throw new Error('Error fetching tweets');
                 }
@@ -32,7 +35,7 @@ const TweetPage = () => {
         };
 
         fetchTweets();
-    }, []);
+    }, [user, typeTweets]);
 
     const handlePostTweet = async () => {
         console.log(newTweetContent)
@@ -97,8 +100,14 @@ const TweetPage = () => {
         <div className={styles.tweetPage}>
             <div className={styles.header}>
                 <div className={styles.titleContainer}>
-                    <TitleButton text="Para ti" onClick={() => {}} />
-                    <TitleButton text="Siguiendo" onClick={() => {}} />
+                    <TitleButton text="Para ti" onClick={() => {
+                        setTypeTweets('fyp')
+                        console.log(typeTweets)
+                    }} />
+                    <TitleButton text="Siguiendo" onClick={() => {
+                        setTypeTweets('followees')
+                        console.log(typeTweets)
+                        }} />
                     <hr className={styles.Hr}></hr>
                 </div>
             </div>

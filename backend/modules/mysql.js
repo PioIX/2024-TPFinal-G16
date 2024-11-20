@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './.env.local' });
+require('dotenv').config({ path: '././.env.local' });
 const mySql = require('mysql2/promise');
 
 const SQL_CONFIGURATION_DATA = {

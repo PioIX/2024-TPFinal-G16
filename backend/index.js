@@ -133,57 +133,224 @@ app.get('/user/:sub/tweets', async function (req, res) {
 
 
 app.get('/tweets', async function (req, res) {
-  try {
-      let tweets = await MySQL.makeQuery(`SELECT * FROM TweetsOwl ORDER BY creation DESC`);
+    try {
+        const userID = req.query.userID;  // Asumimos que el userID se pasa como parámetro de consulta
+        const type = req.query.type;
 
-      if (tweets.length === 0) {
-          return res.status(404).send({ status: "error", message: "No tweets found" });
-      }
+        console.log('Received type:', type);  // Verifica que el tipo es correcto
+        console.log('UserID:', userID);      // Verifica que el userID es correcto
 
-      res.send({ status: "ok", tweets });
-  } catch (error) {
-      console.error('Error fetching tweets:', error);
-      res.status(500).send({ status: "error", message: "An error occurred while fetching tweets." });
-  }
+        let query = `
+            SELECT t.*, 
+                   u.name AS name,                -- Alias 'name' para el nombre del usuario
+                   u.picture AS picture,          -- Alias 'picture' para la foto de perfil del usuario
+                   COALESCE((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID), 0) AS likesCount,
+                   COALESCE((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID), 0) AS retweetsCount,
+                   COALESCE((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID), 0) AS savesCount,
+                   COALESCE((SELECT COUNT(*) FROM CommentsOwl c WHERE c.tweetID = t.tweetID), 0) AS commentsCount,
+                   IF((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID AND l.userID = ?), true, false) AS isLiked,
+                   IF((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID AND r.userID = ?), true, false) AS isRetweeted,
+                   IF((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID AND s.userID = ?), true, false) AS isSaved
+            FROM TweetsOwl t
+            LEFT JOIN UsersOwl u ON t.userID = u.sub    -- Unir con la tabla de usuarios para obtener 'name' y 'picture'
+        `;
+
+        if (type === 'followees') {
+            console.log('Type is followees'); // Verifica si entra en el bloque de followees
+            query += `
+                WHERE t.userID IN (SELECT followeeID FROM FollowsOwl WHERE followerID = ?)
+            `;
+        }
+
+        query += ` ORDER BY t.creation DESC`;
+
+        console.log('Executing query:', query);  // Verifica la consulta generada
+
+        // Ejecutar la consulta con los parámetros correctos
+        let tweets;
+        if (type === 'followees') {
+            tweets = await MySQL.makeQuery(query, [userID, userID, userID, userID]);
+        } else {
+            tweets = await MySQL.makeQuery(query, [userID, userID, userID]);
+        }
+
+        console.log('Tweets fetched:', tweets);  // Verifica los resultados obtenidos
+
+        if (tweets.length === 0) {
+            console.log('No tweets found, returning empty array');
+            return res.send({ status: "ok", tweets: [] });  // Devuelve un array vacío si no hay tweets
+        }
+
+        res.send({ status: "ok", tweets });
+    } catch (error) {
+        console.error('Error fetching tweets:', error);  // Loguea el error detalladamente
+        res.status(500).send({ status: "error", message: "An error occurred while fetching tweets." });
+    }
 });
+
+app.get('/tweet/:tweetID', async function (req, res) {
+    try {
+        const { tweetID } = req.params;  // Obtén el tweetID de los parámetros de la URL
+        console.log(req.query)
+        const { userID } = req.query;   // Obtén el userID de los parámetros de la consulta
+
+        // Verifica que tweetID y userID no sean undefined o null
+        if (!tweetID || !userID) {
+            return res.status(400).send({ status: "error", message: "tweetID and userID are required" });
+        }
+
+        console.log("Received tweetID:", tweetID);
+        console.log("Received userID:", userID);
+
+        let query = `
+            SELECT t.*, 
+                   u.name AS name,
+                   u.picture AS picture,
+                   COALESCE((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID), 0) AS likesCount,
+                   COALESCE((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID), 0) AS retweetsCount,
+                   COALESCE((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID), 0) AS savesCount,
+                   COALESCE((SELECT COUNT(*) FROM CommentsOwl c WHERE c.tweetID = t.tweetID), 0) AS commentsCount,
+                   IF((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID AND l.userID = ?), true, false) AS isLiked,
+                   IF((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID AND r.userID = ?), true, false) AS isRetweeted,
+                   IF((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID AND s.userID = ?), true, false) AS isSaved
+            FROM TweetsOwl t
+            LEFT JOIN UsersOwl u ON t.userID = u.sub
+            WHERE t.tweetID = ?
+        `;
+
+        // Ejecutar la consulta con los parámetros correctos
+        const tweet = await MySQL.makeQuery(query, [userID, userID, userID, tweetID]);
+
+        if (tweet.length === 0) {
+            return res.status(404).send({ status: "error", message: "Tweet not found" });
+        }
+
+        console.log(tweet[0])
+        res.send({ status: "ok", tweet: tweet[0] });
+    } catch (error) {
+        console.error('Error fetching tweet:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while fetching tweet." });
+    }
+});
+
+
+
+
 
 app.post('/like', async function (req, res) {
-  try {
-      let body = req.body;
+    try {
+        let body = req.body;
+  
+        // Validación de los campos requeridos
+        if (!body.sub || !body.tweetID) {
+            return res.status(400).send({ status: "error", message: "User 'sub' and 'tweetID' are required." });
+        }
+  
+        // Verificar si el tweet existe
+        let tweetExists = await MySQL.makeQuery("SELECT tweetID FROM TweetsOwl WHERE tweetID = ?", [body.tweetID]);
+  
+        if (tweetExists.length === 0) {
+            return res.status(404).send({ status: "error", message: "Tweet not found" });
+        }
+  
+        // Verificar si el usuario ya le dio like al tweet
+        let likeExists = await MySQL.makeQuery("SELECT * FROM LikesOwl WHERE tweetID = ? AND userID = ?", [body.tweetID, body.sub]);
+  
+        if (likeExists.length > 0) {
+            // Eliminar el like existente
+            await MySQL.makeQuery("DELETE FROM LikesOwl WHERE tweetID = ? AND userID = ?", [body.tweetID, body.sub]);
+            return res.send({ status: "ok", message: "Like removed successfully!", action: "removed" });
+        } else {
+            // Insertar un nuevo like
+            const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await MySQL.makeQuery(
+                "INSERT INTO LikesOwl (tweetID, userID, creation) VALUES (?, ?, ?)",
+                [body.tweetID, body.sub, creationDate]
+            );
+            return res.send({ status: "ok", message: "Tweet liked successfully!", action: "added" });
+        }
+    } catch (error) {
+        console.error('Error liking the tweet:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while liking the tweet." });
+    }
+  });
 
-      // Validación de los campos requeridos
-      if (!body.sub || !body.tweetID) {
-          return res.status(400).send({ status: "error", message: "User 'sub' and 'tweetID' are required." });
-      }
+  app.get('/tweets/:tweetID/comments', async function (req, res) {
+    try {
+        const { tweetID } = req.params;
+        const { userID } = req.query; // Obtener el userID del usuario actual que realiza la petición
 
-      // Verificar si el tweet existe
-      let tweetExists = await MySQL.makeQuery(`SELECT tweetID FROM TweetsOwl WHERE tweetID = ?`, [body.tweetID]);
+        // Verificar si tweetID y userID existen
+        if (!tweetID || !userID) {
+            return res.status(400).send({ status: "error", message: "tweetID and userID are required" });
+        }
 
-      if (tweetExists.length === 0) {
-          return res.status(404).send({ status: "error", message: "Tweet not found" });
-      }
+        // Verificar si el tweet existe
+        const tweetExists = await MySQL.makeQuery(`SELECT tweetID FROM TweetsOwl WHERE tweetID = ?`, [tweetID]);
+        if (tweetExists.length === 0) {
+            return res.status(404).send({ status: "error", message: "Tweet not found." });
+        }
 
-      // Verificar si el usuario ya le dio like al tweet
-      let likeExists = await MySQL.makeQuery(`SELECT * FROM LikesOwl WHERE tweetID = ? AND userID = ?`, [body.tweetID, body.sub]);
+        // Obtener todos los comentarios asociados al tweet, junto con la información del usuario y métricas adicionales
+        const comments = await MySQL.makeQuery(
+            `
+            SELECT c.*, 
+                   u.given_name AS givenName,
+                   u.nickname AS nickname,
+                   u.picture AS picture,
+                   COALESCE((SELECT COUNT(*) FROM LikesOwl l WHERE l.commentID = c.commentID), 0) AS likesCount,
+                   COALESCE((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.commentID = c.commentID), 0) AS retweetsCount,
+                   COALESCE((SELECT COUNT(*) FROM SavesOwl s WHERE s.commentID = c.commentID), 0) AS savesCount,
+                   COALESCE((SELECT COUNT(*) FROM CommentsOwl cc WHERE cc.parentCommentID = c.commentID), 0) AS commentsCount,
+                   IF((SELECT COUNT(*) FROM LikesOwl l WHERE l.commentID = c.commentID AND l.userID = ?), true, false) AS isLiked,
+                   IF((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.commentID = c.commentID AND r.userID = ?), true, false) AS isRetweeted,
+                   IF((SELECT COUNT(*) FROM SavesOwl s WHERE s.commentID = c.commentID AND s.userID = ?), true, false) AS isSaved
+            FROM CommentsOwl c
+            LEFT JOIN UsersOwl u ON c.userID = u.sub
+            WHERE c.tweetID = ?
+            ORDER BY c.creation DESC
+            `,
+            [userID, userID, userID, tweetID]
+        );
 
-      if (likeExists.length > 0) {
-          // Eliminar el like existente
-          await MySQL.makeQuery(`DELETE FROM LikesOwl WHERE tweetID = ? AND userID = ?`, [body.tweetID, body.sub]);
-          return res.send({ status: "ok", message: "Like removed successfully!" });
-      } else {
-          // Insertar un nuevo like
-          const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-          await MySQL.makeQuery(
-              `INSERT INTO LikesOwl (tweetID, userID, creation) VALUES (?, ?, ?)`,
-              [body.tweetID, body.sub, creationDate]
-          );
-          return res.send({ status: "ok", message: "Tweet liked successfully!" });
-      }
-  } catch (error) {
-      console.error('Error liking the tweet:', error);
-      res.status(500).send({ status: "error", message: "An error occurred while liking the tweet." });
-  }
+        res.send({ status: "ok", comments });
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while fetching comments." });
+    }
 });
+
+
+
+  app.post('/comment', async function (req, res) {
+    try {
+        const { userID, tweetID, content } = req.body;
+
+        // Validar que todos los campos requeridos están presentes
+        if (!userID || !tweetID || !content) {
+            return res.status(400).send({ status: "error", message: "All fields (userID, tweetID, content) are required." });
+        }
+
+        // Verificar si el tweet existe
+        const tweetExists = await MySQL.makeQuery(`SELECT tweetID FROM TweetsOwl WHERE tweetID = ?`, [tweetID]);
+        if (tweetExists.length === 0) {
+            return res.status(404).send({ status: "error", message: "Tweet not found." });
+        }
+
+        // Insertar el nuevo comentario en la base de datos
+        const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        await MySQL.makeQuery(
+            `INSERT INTO CommentsOwl (tweetID, userID, content, creation) VALUES (?, ?, ?, ?)`,
+            [tweetID, userID, content, creationDate]
+        );
+
+        res.send({ status: "ok", message: "Comment added successfully!" });
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while adding the comment." });
+    }
+});
+
 
 app.get('/user/:sub/likes', async function (req, res) {
     try {
@@ -226,7 +393,7 @@ app.post('/retweet', async function (req, res) {
         if (retweetExists.length > 0) {
             // Eliminar el retweet existente
             await MySQL.makeQuery(`DELETE FROM RetweetsOwl WHERE tweetID = ? AND userID = ?`, [body.tweetID, body.userID]);
-            return res.send({ status: "ok", message: "Retweet removed successfully!" });
+            return res.send({ status: "ok", message: "Retweet removed successfully!", action: "removed" });
         } else {
             // Insertar un nuevo retweet
             const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -234,7 +401,7 @@ app.post('/retweet', async function (req, res) {
                 `INSERT INTO RetweetsOwl (tweetID, userID, creation) VALUES (?, ?, ?)`,
                 [body.tweetID, body.userID, creationDate]
             );
-            return res.send({ status: "ok", message: "Tweet retweeted successfully!" });
+            return res.send({ status: "ok", message: "Tweet retweeted successfully!", action: "added" });
         }
     } catch (error) {
         console.error('Error retweeting the tweet:', error);
@@ -242,6 +409,51 @@ app.post('/retweet', async function (req, res) {
     }
   });
   
+  app.post('/save', async function (req, res) {
+    try {
+        let body = req.body;
+
+        console.log('Received POST body:', body);  // Añadir console.log aquí para ver el body recibido
+
+        // Validación de los campos requeridos
+        if (!body.userID || !body.tweetID) {
+            console.log('ME FUI ACA: VALIDACION CAMPOS');
+            return res.status(400).send({ status: "error", message: "User 'userID' and 'tweetID' are required." });
+        }
+
+        // Verificar si el tweet existe
+        let tweetExists = await MySQL.makeQuery(`SELECT tweetID FROM TweetsOwl WHERE tweetID = ?`, [body.tweetID]);
+
+        if (tweetExists.length === 0) {
+            console.log('ME FUI ACA: VALIDACION TWEET');
+            return res.status(404).send({ status: "error", message: "Tweet not found" });
+        }
+
+        // Verificar si el usuario ya guardó el tweet
+        let saveExists = await MySQL.makeQuery(`SELECT * FROM SavesOwl WHERE tweetID = ? AND userID = ?`, [body.tweetID, body.userID]);
+
+        if (saveExists.length > 0) {
+            // Eliminar el save existente
+            await MySQL.makeQuery(`DELETE FROM SavesOwl WHERE tweetID = ? AND userID = ?`, [body.tweetID, body.userID]);
+            console.log('Save removed');
+            return res.send({ status: "ok", message: "Save removed successfully!", action: "removed" });
+        } else {
+            // Insertar un nuevo save
+            const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            await MySQL.makeQuery(
+                `INSERT INTO SavesOwl (tweetID, userID, creation) VALUES (?, ?, ?)`,
+                [body.tweetID, body.userID, creationDate]
+            );
+            console.log('Tweet saved');
+            return res.send({ status: "ok", message: "Tweet saved successfully!", action: "added" });
+        }
+    } catch (error) {
+        console.log('ME FUI ACA: ERROR CATCH');  // Imprimir el error
+        console.error('Error saving the tweet:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while saving the tweet." });
+    }
+});
+
 
 app.get('/user/:sub/retweets', async function (req, res) {
     try {
@@ -325,6 +537,36 @@ app.get('/user/:sub/followers', async function (req, res) {
     }
   });
   
+  app.get('/search', async function (req, res) {
+    try {
+        const { query } = req.query;
+
+        if (!query) {
+            return res.status(400).send({ status: "error", message: "Query parameter is required" });
+        }
+
+        // Buscar usuarios por nombre o nickname
+        const users = await MySQL.makeQuery(`
+            SELECT sub, given_name, nickname, picture
+            FROM UsersOwl
+            WHERE given_name LIKE ? OR nickname LIKE ?
+        `, [`%${query}%`, `%${query}%`]);
+
+        // Buscar tweets por contenido
+        const tweets = await MySQL.makeQuery(`
+            SELECT t.*, u.given_name AS name, u.nickname, u.picture
+            FROM TweetsOwl t
+            LEFT JOIN UsersOwl u ON t.userID = u.sub
+            WHERE t.content LIKE ?
+            ORDER BY t.creation DESC
+        `, [`%${query}%`]);
+
+        res.send({ status: "ok", users, tweets });
+    } catch (error) {
+        console.error('Error during search:', error);
+        res.status(500).send({ status: "error", message: "An error occurred during the search." });
+    }
+});
 
 
 // Iniciar el servidor

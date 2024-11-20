@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./UserProfile.module.css";
+import Link from "next/link";
 
 const UserProfile = ({ user, userHandle }) => {
     if (!user) {
@@ -7,6 +8,7 @@ const UserProfile = ({ user, userHandle }) => {
     }
 
     return (
+        <Link href={`/profilee/${user.sub}`}>
         <div className={styles.Photo}>
             <img
                 src={user.picture}
@@ -15,9 +17,9 @@ const UserProfile = ({ user, userHandle }) => {
             />
             <div className={styles.Nombre}>
                 <span>{user.name}</span>
-                <span>@{userHandle}</span>
             </div>
         </div>
+        </Link>
     );
 };
 
