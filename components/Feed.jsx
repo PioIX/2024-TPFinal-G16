@@ -9,7 +9,7 @@ const Feed = ({ tweets }) => {
         <div>
             {console.log(tweets)}
             {tweets.map((tweet) => (
-                <Link href={`/tweet/${tweet.tweetID}`} key={tweet.tweetID}>
+                // <Link href={`/tweet/${tweet.tweetID}`} key={tweet.tweetID}>
                 <Tweet
                     key={tweet.tweetID}
                     user={{
@@ -29,7 +29,7 @@ const Feed = ({ tweets }) => {
                     isRetweeted={tweet.isRetweeted}
                     isSaved={tweet.isSaved}
                 />
-                </Link>
+                // </Link>
             ))}
         </div>
     );

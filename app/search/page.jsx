@@ -3,29 +3,37 @@
 import React, { useState } from "react";
 import styles from "./page.module.css";
 import InputSearch from "../../components/InputSearch"; // Asegúrate de que la ruta sea correcta
+import Tweet from "../../components/Tweet";
+import { useRouter } from "next/navigation"; // Para redirigir a perfiles
+import Link from "next/link";
 
 const SearchPage = () => {
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState({ users: [], tweets: [] });
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState('');
+    const router = useRouter(); // Para redirigir a perfiles de usuario
 
-    // Función que simula la búsqueda, por ejemplo, consulta la API de Twitter
+    // Función que realiza la búsqueda
     const handleSearch = async (searchQuery) => {
         setLoading(true);
         setQuery(searchQuery); // Guarda la consulta actual
 
-        // Aquí iría la lógica real para obtener resultados de búsqueda, por ejemplo, llamando a la API de Twitter.
-        setTimeout(() => {
-            // Simulando resultados para mostrar en la búsqueda
-            const simulatedResults = [
-                { id: 1, text: `Resultado de búsqueda para "${searchQuery}"` },
-                { id: 2, text: `Otro resultado de búsqueda para "${searchQuery}"` },
-                { id: 3, text: `Más resultados de búsqueda relacionados con "${searchQuery}"` }
-            ];
-
-            setResults(simulatedResults);
+        try {
+            const response = await fetch(`http://localhost:5001/search?query=${encodeURIComponent(searchQuery)}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch search results. Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setResults(data);
+        } catch (error) {
+            console.error('Error during search:', error);
+        } finally {
             setLoading(false);
-        }, 1000); // Simula un retraso de 1 segundo
+        }
+    };
+
+    const handleUserClick = (sub) => {
+        router.push(`/profilee/${encodeURIComponent(sub)}`);
     };
 
     return (
@@ -36,14 +44,60 @@ const SearchPage = () => {
 
             <div className={styles.resultsContainer}>
                 {loading && <p>Cargando resultados...</p>}
-                {!loading && results.length === 0 && query && <p>No se encontraron resultados para "{query}".</p>}
-                {!loading && results.length > 0 && (
+                {!loading && results.users.length === 0 && results.tweets.length === 0 && query && (
+                    <p>No se encontraron resultados para "{query}".</p>
+                )}
+                {!loading && (
                     <div>
-                        {results.map(result => (
-                            <div key={result.id} className={styles.resultItem}>
-                                <p>{result.text}</p>
-                            </div>
-                        ))}
+                        {results.users.length > 0 && (
+                            <>
+                                <h3>Usuarios</h3>
+                                {results.users.map(user => (
+                                    <Link href={`/profilee/${user.sub}`} key={user.sub}>
+                                    <div
+                                        
+                                        className={styles.resultItem}
+                                        onClick={() => handleUserClick(user.sub)}
+                                    >
+                                        
+                                        <img src={user.picture} alt={`${user.given_name}'s avatar`} />
+                                        
+                                        <div>
+                                            <p>{user.given_name}</p>
+                                            <p>@{user.nickname}</p>
+                                        </div>
+                                    </div>
+                                    </Link>
+                                ))}
+                            </>
+                        )}
+
+                        {results.tweets.length > 0 && (
+                            <>
+                                <h3>Tweets</h3>
+                                {results.tweets.map(tweet => (
+                                    <Tweet
+                                        key={tweet.tweetID}
+                                        id={tweet.tweetID}
+                                        user={{
+                                            picture: tweet.picture,
+                                            name: tweet.name,
+                                            sub: tweet.userID
+                                        }}
+                                        userHandle={tweet.nickname}
+                                        content={tweet.content}
+                                        media={tweet.mediaURL}
+                                        likesCount={tweet.likesCount || 0}
+                                        retweetsCount={tweet.retweetsCount || 0}
+                                        commentsCount={tweet.commentsCount || 0}
+                                        savesCount={tweet.savesCount || 0}
+                                        isLiked={tweet.isLiked || false}
+                                        isRetweeted={tweet.isRetweeted || false}
+                                        isSaved={tweet.isSaved || false}
+                                    />
+                                ))}
+                            </>
+                        )}
                     </div>
                 )}
             </div>
@@ -52,4 +106,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-

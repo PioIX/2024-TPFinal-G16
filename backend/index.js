@@ -537,6 +537,36 @@ app.get('/user/:sub/followers', async function (req, res) {
     }
   });
   
+  app.get('/search', async function (req, res) {
+    try {
+        const { query } = req.query;
+
+        if (!query) {
+            return res.status(400).send({ status: "error", message: "Query parameter is required" });
+        }
+
+        // Buscar usuarios por nombre o nickname
+        const users = await MySQL.makeQuery(`
+            SELECT sub, given_name, nickname, picture
+            FROM UsersOwl
+            WHERE given_name LIKE ? OR nickname LIKE ?
+        `, [`%${query}%`, `%${query}%`]);
+
+        // Buscar tweets por contenido
+        const tweets = await MySQL.makeQuery(`
+            SELECT t.*, u.given_name AS name, u.nickname, u.picture
+            FROM TweetsOwl t
+            LEFT JOIN UsersOwl u ON t.userID = u.sub
+            WHERE t.content LIKE ?
+            ORDER BY t.creation DESC
+        `, [`%${query}%`]);
+
+        res.send({ status: "ok", users, tweets });
+    } catch (error) {
+        console.error('Error during search:', error);
+        res.status(500).send({ status: "error", message: "An error occurred during the search." });
+    }
+});
 
 
 // Iniciar el servidor

@@ -8,7 +8,7 @@ const UserProfile = ({ user, userHandle }) => {
     }
 
     return (
-        // <Link href={`/profilee/${user.sub}`}>
+        <Link href={`/profilee/${user.sub}`}>
         <div className={styles.Photo}>
             <img
                 src={user.picture}
@@ -19,7 +19,7 @@ const UserProfile = ({ user, userHandle }) => {
                 <span>{user.name}</span>
             </div>
         </div>
-        // </Link>
+        </Link>
     );
 };
 
