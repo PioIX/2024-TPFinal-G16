@@ -1,12 +1,22 @@
+"use client"
+
 import React from 'react';
 import Tweet from './Tweet';
+import Link from "next/link";
 
 const Feed = ({ tweets }) => {
     return (
         <div>
+            {console.log(tweets)}
             {tweets.map((tweet) => (
+                <Link href={`/tweet/${tweet.tweetID}`} key={tweet.tweetID}>
                 <Tweet
                     key={tweet.tweetID}
+                    user={{
+                        picture: tweet.picture,
+                        name: tweet.name,
+                        sub: tweet.userID
+                    }}
                     userHandle={tweet.userID}
                     content={tweet.content}
                     media={tweet.mediaURL}
@@ -19,6 +29,7 @@ const Feed = ({ tweets }) => {
                     isRetweeted={tweet.isRetweeted}
                     isSaved={tweet.isSaved}
                 />
+                </Link>
             ))}
         </div>
     );

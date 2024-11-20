@@ -125,19 +125,19 @@ const Interactions = ({ likes, retweets, comments, saves, isLiked, isSaved, isRe
         <div className={styles.InteractionsContainer}>
                 <div className={styles.Span} onClick={handleImageLikeChange}>
                     
-                    <img src={imageHeartClicked? "./images/heartClicked.png" : "./images/heartUnclicked.png"} alt="Heart" height="20px" width="20px"/> 
+                    <img src={imageHeartClicked? "/images/heartClicked.png" : "/images/heartUnclicked.png"} alt="Heart" height="20px" width="20px"/> 
                     {tweetLikes} 
                 </div>
                 <div className={styles.Span} onClick={handleImageRetweetChange}>
-                    <img src={imageRetweetClicked? "./images/retweetClicked.png" : "./images/retweetUnclicked.png"} alt="Heart" height="20px" width="20px"/> 
+                    <img src={imageRetweetClicked? "/images/retweetClicked.png" : "/images/retweetUnclicked.png"} alt="Heart" height="20px" width="20px"/> 
                     {tweetRetweets}
                 </div>
                 <div className={styles.Span}>
-                    <img src="./images/comment.png" alt="Heart" height="20px" width="20px"/>
+                    <img src="/images/comment.png" alt="Heart" height="20px" width="20px"/>
                     {comments}
                 </div>
                 <div className={styles.Span} onClick={handleImageSavedChange}> 
-                    <img src={imageSavedClicked? "./images/savedClicked.png": "./images/savedUnclicked.png"} alt="Heart" height="20px" width="20px"/> 
+                    <img src={imageSavedClicked? "/images/savedClicked.png": "/images/savedUnclicked.png"} alt="Heart" height="20px" width="20px"/> 
                     {tweetSaves}
                 </div>
         </div>

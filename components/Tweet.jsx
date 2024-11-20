@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import styles from "./Tweet.module.css";
 import UserProfile from "./UserProfile";
@@ -10,7 +12,7 @@ const Tweet = ({ id, user, userHandle, content, media, likesCount, retweetsCount
     return (
         <div className={styles.tweet}>
             <div className={styles.InfoTweet}>
-                {user && <UserProfile user={user} userHandle={userHandle} />}
+                {user && <UserProfile user={user} />}
                 <span>5 min · 25 de octubre de 2024</span>
             </div>
             <p>{content}</p>
@@ -18,7 +20,6 @@ const Tweet = ({ id, user, userHandle, content, media, likesCount, retweetsCount
             <div className={styles.InteractionSpace}>
                 <Interactions likes={likesCount} comments={commentsCount} retweets={retweetsCount} saves={savesCount} tweetID={id} isLiked={isLiked} isSaved={isSaved} isRetweeted={isRetweeted}/>
             </div>
-            <Input placeholder={"Que esta pasando?"}></Input>
         </div>
     );
 };
