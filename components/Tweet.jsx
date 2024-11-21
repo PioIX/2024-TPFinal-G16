@@ -5,10 +5,9 @@ import styles from "./Tweet.module.css";
 import UserProfile from "./UserProfile";
 import Media from "./Media";
 import Interactions from "./Interactions";
-import Input from "./Input";
-import Comment from "./Comment";
 
-const Tweet = ({ id, user, userHandle, content, media, likesCount, retweetsCount, commentsCount, savesCount, isLiked, isSaved, isRetweeted }) => {
+
+const Tweet = ({ id, user, content, media, likesCount, retweetsCount, commentsCount, savesCount, isLiked, isSaved, isRetweeted }) => {
     return (
         <div className={styles.tweet}>
             <div className={styles.InfoTweet}>

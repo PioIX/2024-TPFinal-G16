@@ -7,6 +7,7 @@ import ProfilePage from '../../../components/ProfilePage'; // Ajusta la ruta seg
 const UserProfilePage = () => {
     const params = useParams();
     const sub = params?.sub;
+    
 
     // Imprime el valor del sub para verificar que se captura correctamente
     console.log('Received sub:', sub);

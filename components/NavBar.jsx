@@ -77,7 +77,7 @@ const NavBar = () => {
                       </PageLink>
                     </div>
                   </NavItem>
-                  <img src='./images/logo.png' width={"200px"} height={"130px"}></img>
+                  <img src='/public/images/logo.png' width={"200px"} height={"130px"} alt='Logo'></img>
                   <NavItem>
                     <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
                       <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ProfilePage.module.css';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Tweet from './Tweet';
 
 const ProfilePage = ({ sub }) => {
     const { user } = useUser()
@@ -172,10 +173,25 @@ const ProfilePage = ({ sub }) => {
                         <h3>Tweets</h3>
                         {tweets.length > 0 ? (
                             tweets.map((tweet) => (
-                                <div key={tweet.tweetID} className={styles.tweet}>
-                                    <p>{tweet.content}</p>
-                                    <span>{new Date(tweet.created_at).toLocaleString()}</span>
-                                </div>
+                                <Tweet
+                                    key={tweet.tweetID}
+                                    user={{
+                                        picture: tweet.picture,
+                                        name: tweet.name,
+                                        sub: tweet.userID,
+                                    }}
+                                    userHandle={tweet.userID}
+                                    content={tweet.content}
+                                    media={tweet.mediaURL}
+                                    id={tweet.tweetID}
+                                    likesCount={tweet.likesCount}
+                                    retweetsCount={tweet.retweetsCount}
+                                    savesCount={tweet.savesCount}
+                                    commentsCount={tweet.commentsCount}
+                                    isLiked={tweet.isLiked}
+                                    isRetweeted={tweet.isRetweeted}
+                                    isSaved={tweet.isSaved}
+                                />
                             ))
                         ) : (
                             <p>Este usuario aún no ha publicado tweets.</p>
@@ -187,10 +203,25 @@ const ProfilePage = ({ sub }) => {
                         <h3>Liked Tweets</h3>
                         {userLikes.length > 0 ? (
                             userLikes.map((tweet) => (
-                                <div key={tweet.tweetID} className={styles.tweet}>
-                                    <p>{tweet.content}</p>
-                                    <span>{new Date(tweet.created_at).toLocaleString()}</span>
-                                </div>
+                                <Tweet
+                                    key={tweet.tweetID}
+                                    user={{
+                                        picture: tweet.picture,
+                                        name: tweet.name,
+                                        sub: tweet.userID,
+                                    }}
+                                    userHandle={tweet.userID}
+                                    content={tweet.content}
+                                    media={tweet.mediaURL}
+                                    id={tweet.tweetID}
+                                    likesCount={tweet.likesCount}
+                                    retweetsCount={tweet.retweetsCount}
+                                    savesCount={tweet.savesCount}
+                                    commentsCount={tweet.commentsCount}
+                                    isLiked={tweet.isLiked}
+                                    isRetweeted={tweet.isRetweeted}
+                                    isSaved={tweet.isSaved}
+                                />
                             ))
                         ) : (
                             <p>Este usuario aún no ha dado likes a tweets.</p>
@@ -202,10 +233,53 @@ const ProfilePage = ({ sub }) => {
                         <h3>Retweets</h3>
                         {userRetweets.length > 0 ? (
                             userRetweets.map((tweet) => (
-                                <div key={tweet.tweetID} className={styles.tweet}>
-                                    <p>{tweet.content}</p>
-                                    <span>{new Date(tweet.created_at).toLocaleString()}</span>
-                                </div>
+                                <Tweet
+                                    key={tweet.tweetID}
+                                    user={{
+                                        picture: tweet.picture,
+                                        name: tweet.name,
+                                        sub: tweet.userID,
+                                    }}
+                                    userHandle={tweet.userID}
+                                    content={tweet.content}
+                                    media={tweet.mediaURL}
+                                    id={tweet.tweetID}
+                                    likesCount={tweet.likesCount}
+                                    retweetsCount={tweet.retweetsCount}
+                                    savesCount={tweet.savesCount}
+                                    commentsCount={tweet.commentsCount}
+                                    isLiked={tweet.isLiked}
+                                    isRetweeted={tweet.isRetweeted}
+                                    isSaved={tweet.isSaved}
+                                />
+                            ))
+                        ) : (
+                            <p>Este usuario aún no ha hecho retweets.</p>
+                        )}
+                    </div>
+                    <div className={styles.retweets}>
+                        <h3>Retweets</h3>
+                        {userRetweets.length > 0 ? (
+                            userRetweets.map((tweet) => (
+                                <Tweet
+                                    key={tweet.tweetID}
+                                    user={{
+                                        picture: tweet.picture,
+                                        name: tweet.name,
+                                        sub: tweet.userID,
+                                    }}
+                                    userHandle={tweet.userID}
+                                    content={tweet.content}
+                                    media={tweet.mediaURL}
+                                    id={tweet.tweetID}
+                                    likesCount={tweet.likesCount}
+                                    retweetsCount={tweet.retweetsCount}
+                                    savesCount={tweet.savesCount}
+                                    commentsCount={tweet.commentsCount}
+                                    isLiked={tweet.isLiked}
+                                    isRetweeted={tweet.isRetweeted}
+                                    isSaved={tweet.isSaved}
+                                />
                             ))
                         ) : (
                             <p>Este usuario aún no ha hecho retweets.</p>
