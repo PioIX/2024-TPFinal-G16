@@ -1,0 +1,93 @@
+.chatPage {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.chatHeader {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #075e54;
+    color: #fff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.userName {
+    font-weight: bold;
+}
+
+.userNickname {
+    font-size: 0.9em;
+    color: #c9c9c9;
+}
+
+.messagesContainer {
+    flex: 1;
+    display: flex; /* Agrega display flex */
+    flex-direction: column; /* Apila los mensajes verticalmente */
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #e5ddd5;
+    align-items: flex-start; /* Asegura que los elementos estén alineados a la izquierda por defecto */
+}
+
+
+.myMessage {
+    align-self: flex-end; /* Esto mantiene los mensajes propios a la derecha */
+    background-color: #dcf8c6;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.otherMessage {
+    align-self: flex-start; /* Esto asegura que los mensajes de otros estén alineados a la izquierda */
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+
+
+.inputContainer {
+    display: flex;
+    padding: 10px;
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+}
+
+.messageInput {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.sendButton {
+    padding: 10px 20px;
+    background-color: #075e54;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}

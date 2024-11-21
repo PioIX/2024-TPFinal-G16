@@ -5,6 +5,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const MySQL = require('./modules/mysql');
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
 const port = 5001;
@@ -15,6 +17,60 @@ app.use(cors()); // Permitir todas las solicitudes de origen cruzado
 
 // Middleware para analizar JSON en solicitudes entrantes
 app.use(express.json());
+
+const server = http.createServer(app); // Crea un servidor HTTP a partir de Express
+
+// Iniciar el servidor
+server.listen(port, () => {
+    console.log(`API Server listening on port ${port}`);
+  });
+  
+  // Manejar la señal de interrupción (CTRL+C) para cerrar el servidor
+process.on('SIGINT', () => server.close());
+
+const io = socketIo(server, {
+  cors: {
+    origin: "*", // Permite todas las peticiones de origen cruzado. Ajusta esto según sea necesario
+    methods: ["GET", "POST"]
+  }
+});
+
+// Escuchar conexiones de socket
+io.on('connection', (socket) => {
+    console.log('New client connected:', socket.id);
+
+    // Escuchar cuando un cliente se une a una sala de chat específica
+    socket.on('joinChat', (chatID) => {
+        console.log(`Socket ${socket.id} joining chat room: ${chatID}`);
+        socket.join(chatID);
+    });
+
+    // Escuchar cuando un cliente envía un mensaje
+    socket.on('sendMessage', async (messageData) => {
+        console.log('Message received:', messageData);
+
+        const { chatID, senderID, content, creation } = messageData;
+
+        try {
+            // Insertar el nuevo mensaje asociado al chat en la base de datos
+            await MySQL.makeQuery(
+                `INSERT INTO MessagesOwl (chatID, senderID, content, creation) VALUES (?, ?, ?, ?)`,
+                [chatID, senderID, content, creation]
+            );
+
+            // Emitir el mensaje a todos los usuarios en la sala del chat
+            io.to(chatID).emit('sendMessage', messageData);
+            console.log('Message emitted to chat room:', chatID);
+        } catch (error) {
+            console.error('Error saving message to database:', error);
+        }
+    });
+
+    // Limpiar cuando el cliente se desconecta
+    socket.on('disconnect', () => {
+        console.log('Client disconnected:', socket.id);
+    });
+});
 
 const formatDate = (isoDate) => {
   const date = new Date(isoDate);
@@ -568,11 +624,210 @@ app.get('/user/:sub/followers', async function (req, res) {
     }
 });
 
+app.get('/user/:sub/chats', async function (req, res) {
+    try {
+        const { sub } = req.params;
 
-// Iniciar el servidor
-const server = app.listen(port, () => {
-  console.log(`API Server listening on port ${port}`);
+        console.log("Received request to fetch chats for user:", sub);
+
+        // Verificar si el usuario existe
+        let userExists = await MySQL.makeQuery(`SELECT sub FROM UsersOwl WHERE sub = ?`, [sub]);
+
+        if (userExists.length === 0) {
+            console.log("User not found:", sub);
+            return res.status(404).send({ status: "error", message: "User not found" });
+        }
+
+        console.log("Fetching all chats for user:", sub);
+
+        // Usar una subconsulta para obtener el último mensaje por cada par de usuarios
+        const chats = await MySQL.makeQuery(
+            `SELECT c1.*, u.given_name AS givenName, u.nickname AS nickname, u.picture AS picture
+             FROM ChatsOwl c1
+             INNER JOIN (
+                 SELECT GREATEST(senderID, receiverID) AS user1, LEAST(senderID, receiverID) AS user2, MAX(creation) AS latestMessage
+                 FROM ChatsOwl
+                 WHERE senderID = ? OR receiverID = ?
+                 GROUP BY user1, user2
+             ) c2 ON ((c1.senderID = c2.user1 AND c1.receiverID = c2.user2) OR (c1.senderID = c2.user2 AND c1.receiverID = c2.user1)) AND c1.creation = c2.latestMessage
+             LEFT JOIN UsersOwl u ON (u.sub = c1.senderID AND u.sub != ?) OR (u.sub = c1.receiverID AND u.sub != ?)
+             ORDER BY c1.creation DESC`,
+            [sub, sub, sub, sub]
+        );
+
+        res.send({ status: "ok", chats });
+    } catch (error) {
+        console.error('Error fetching user chats:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while fetching user chats." });
+    }
 });
 
-// Manejar la señal de interrupción (CTRL+C) para cerrar el servidor
-process.on('SIGINT', () => server.close());
+app.post('/chats', async function (req, res) {
+    try {
+        const { senderID, receiverNickname } = req.body;
+
+        // Verificar que se haya proporcionado senderID y receiverNickname
+        if (!senderID || !receiverNickname) {
+            return res.status(400).send({ status: "error", message: "Both senderID and receiverNickname are required." });
+        }
+
+        // Verificar si el destinatario (receiver) existe
+        const receiver = await MySQL.makeQuery(`SELECT sub FROM UsersOwl WHERE nickname = ?`, [receiverNickname]);
+        if (receiver.length === 0) {
+            return res.status(404).send({ status: "error", message: "User with given nickname not found." });
+        }
+
+        const receiverID = receiver[0].sub;
+
+        // Verificar si ya existe un chat entre el remitente y el destinatario
+        const chatExists = await MySQL.makeQuery(
+            `SELECT * FROM ChatsOwl 
+             WHERE (senderID = ? AND receiverID = ?) OR (senderID = ? AND receiverID = ?)`,
+            [senderID, receiverID, receiverID, senderID]
+        );
+
+        if (chatExists.length > 0) {
+            return res.status(200).send({ status: "ok", message: "Chat already exists.", chatID: chatExists[0].chatID });
+        }
+
+        // Crear un nuevo chat (el primer mensaje puede estar vacío inicialmente)
+        const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        await MySQL.makeQuery(
+            `INSERT INTO ChatsOwl (senderID, receiverID, content, creation) VALUES (?, ?, ?, ?)`,
+            [senderID, receiverID, '', creationDate]
+        );
+
+        // Obtener el chat recién creado
+        const newChat = await MySQL.makeQuery(
+            `SELECT * FROM ChatsOwl 
+             WHERE (senderID = ? AND receiverID = ?) OR (senderID = ? AND receiverID = ?) 
+             ORDER BY creation DESC LIMIT 1`,
+            [senderID, receiverID, receiverID, senderID]
+        );
+
+        res.status(201).send({ status: "ok", message: "Chat created successfully!", chat: newChat[0] });
+    } catch (error) {
+        console.error('Error creating chat:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while creating the chat." });
+    }
+});
+
+app.get('/chats/:chatID', async function (req, res) {
+    try {
+        const { chatID } = req.params;
+        const { userID } = req.query;
+
+        // Verificar si el chat existe
+        const chatExists = await MySQL.makeQuery(`SELECT * FROM ChatsOwl WHERE chatID = ?`, [chatID]);
+        if (chatExists.length === 0) {
+            return res.status(404).send({ status: "error", message: "Chat not found." });
+        }
+
+        // Obtener el chat específico y verificar quién es el otro usuario
+        const chat = chatExists[0];
+        let otherUserID;
+
+        if (chat.senderID === userID) {
+            otherUserID = chat.receiverID;
+        } else if (chat.receiverID === userID) {
+            otherUserID = chat.senderID;
+        } else {
+            return res.status(404).send({ status: "error", message: "User not part of this chat." });
+        }
+
+        // Obtener la información del otro usuario
+        const userDetails = await MySQL.makeQuery(`SELECT given_name, nickname, picture FROM UsersOwl WHERE sub = ?`, [otherUserID]);
+
+        if (userDetails.length === 0) {
+            return res.status(404).send({ status: "error", message: "User not found." });
+        }
+
+        const user = userDetails[0];
+
+        res.send({
+            status: "ok",
+            chat: {
+                otherUser: {
+                    givenName: user.given_name,
+                    nickname: user.nickname,
+                    picture: user.picture,
+                },
+            },
+        });
+    } catch (error) {
+        console.error('Error fetching chat details:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while fetching chat details." });
+    }
+});
+
+
+
+app.get('/chats/:chatID/messages', async function (req, res) {
+    try {
+        const { chatID } = req.params;
+        // Verificar si el chatID existe
+        if (!chatID) {
+            return res.status(400).send({ status: "error", message: "chatID and userID are required" });
+        }
+
+        // Verificar si el chat existe
+        const chatExists = await MySQL.makeQuery(`SELECT chatID FROM ChatsOwl WHERE chatID = ?`, [chatID]);
+        if (chatExists.length === 0) {
+            return res.status(404).send({ status: "error", message: "Chat not found." });
+        }
+
+        // Obtener todos los mensajes asociados al chat, junto con la información del usuario
+        const messages = await MySQL.makeQuery(
+            `
+            SELECT m.*, 
+                   u.given_name AS senderName,
+                   u.nickname AS senderNickname,
+                   u.picture AS senderPicture
+            FROM MessagesOwl m
+            JOIN UsersOwl u ON m.senderID = u.sub
+            WHERE m.chatID = ?
+            ORDER BY m.creation ASC
+            `,
+            [chatID]
+        );
+
+        res.send({ status: "ok", messages });
+    } catch (error) {
+        console.error('Error fetching chat messages:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while fetching chat messages." });
+    }
+});
+
+
+app.post('/chats/:chatID/messages', async function (req, res) {
+    try {
+        const { chatID } = req.params;
+        const { userID, content } = req.body;
+
+        if (!chatID || !userID || !content) {
+            return res.status(400).send({ status: "error", message: "chatID, userID, and content are required" });
+        }
+
+        // Verificar si el chat existe antes de insertar el mensaje
+        const chatExists = await MySQL.makeQuery(`SELECT chatID FROM ChatsOwl WHERE chatID = ?`, [chatID]);
+        if (chatExists.length === 0) {
+            return res.status(404).send({ status: "error", message: "Chat not found" });
+        }
+
+        // Insertar el nuevo mensaje asociado al chat
+        const creationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        await MySQL.makeQuery(
+            `INSERT INTO MessagesOwl (chatID, senderID, content, creation) VALUES (?, ?, ?, ?)`,
+            [chatID, userID, content, creationDate]
+        );
+
+        res.send({ status: "ok", message: "Message sent successfully!" });
+    } catch (error) {
+        console.error('Error sending message:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while sending the message." });
+    }
+});
+
+
+
+
