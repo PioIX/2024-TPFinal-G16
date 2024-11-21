@@ -10,6 +10,7 @@ const UserProfile = ({ user, userHandle }) => {
     return (
         <Link href={`/profilee/${user.sub}`}>
         <div className={styles.Photo}>
+            {console.log(user)}
             <img
                 src={user.picture}
                 alt={`${user.name}'s avatar`}

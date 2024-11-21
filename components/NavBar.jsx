@@ -77,7 +77,7 @@ const NavBar = () => {
                       </PageLink>
                     </div>
                   </NavItem>
-                  <img src='/public/images/logo.png' width={"200px"} height={"130px"} alt='Logo'></img>
+                  <img src='/images/logo.png' width={"200px"} height={"130px"} alt='Logo'></img>
                   <NavItem>
                     <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
                       <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">
@@ -101,12 +101,11 @@ const NavBar = () => {
                 )}
                 {user && (
                   <UncontrolledDropdown nav inNavbar data-testid="navbar-menu-desktop" >
-                    <DropdownToggle style={{display:"flex", verticalAlign:"middle", alignContent: "center", alignItems:"center"}}nav caret id="profileDropDown">
+                    <DropdownToggle style={{display:"flex", alignContent: "center", alignItems:"center"}}nav caret id="profileDropDown">
                       <img
                         src={user.picture}
                         alt="Profile"
                         className="nav-user-profile rounded-circle"
-                        verticalAlign="middle"
                         width="60"
                         height="60"
                         decode="async"
@@ -148,7 +147,7 @@ const NavBar = () => {
                   className="d-md-none justify-content-between"
                   navbar
                   data-testid="navbar-menu-mobile">
-                  <NavItem style={{verticalAlign: "middle"}}>
+                  <NavItem>
                     <span className="user-info">
                       <img
                         src={user.picture}
@@ -158,7 +157,6 @@ const NavBar = () => {
                         height="55"
                         decode="async"
                         data-testid="navbar-picture-mobile"
-                        verticalAlign="middle"
                       />
                       <h6 className="d-inline-block" data-testid="navbar-user-mobile">
                         {user.name}

@@ -60,12 +60,12 @@ const ChatPage = () => {
                 }
             };
 
-            socket.on("newMessage", handleNewMessage);
+            socket.on("sendMessage", handleNewMessage);
 
             // Limpiar la conexión al desmontar el componente
             return () => {
                 socket.emit("leaveChat", chatID);
-                socket.off("newMessage", handleNewMessage);
+                socket.off("sendMessage", handleNewMessage);
                 console.log(`Left room: ${chatID}`);
             };
         } else {
