@@ -12,6 +12,12 @@
     width: 100%;
     object-fit: cover;
 }
+.profilePicture{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
 .link:hover{
     text-decoration: underline;
 }
@@ -28,12 +34,9 @@
   }
 @media (max-width: 768px) {
     .mrAuto {
-      display: none; /* Hide on screens smaller than 768px */
-    }
-}
-@media (max-width: 458px) {
-    .mrAuto {
-      display: none; /* Hide on screens smaller than 768px */
+        background-color: transparent; /* Remove background */
+        border: none; /* Remove border if any */
+        padding: 0;  /* Hide on screens smaller than 768px */
     }
 }
 
