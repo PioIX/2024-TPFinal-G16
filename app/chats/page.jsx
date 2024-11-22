@@ -51,12 +51,12 @@ const ChatsPage = () => {
 
     // Mostrar mensaje si no hay usuario autenticado
     if (!user) {
-        return <div>Please log in to view your chats.</div>;
+        return <div>Inicia sesión para ver tus chats.</div>;
     }
 
     return (
         <div className={styles.chatsPage}>
-            <h2>Your Chats</h2>
+            <h2>Tus Chats</h2>
             
             {/* Componente para iniciar un nuevo chat */}
             <StartChat userID={user.sub} />
@@ -81,7 +81,7 @@ const ChatsPage = () => {
                         </Link>)
 })
                 ) : (
-                    <p>No chats available.</p>
+                    <p>No existen chats</p>
                 )}
             </div>
         </div>

@@ -170,7 +170,7 @@ const ChatPage = () => {
     }
 
     if (!user) {
-        return <div>Please log in to view the chat.</div>;
+        return <div>Inicia sesión para ver tus chats.</div>;
     }
 
     return (
@@ -200,7 +200,7 @@ const ChatPage = () => {
                                     );
                                 })
                             ) : (
-                                <p>No messages yet.</p>
+                                <p>No hay mensajes.</p>
                             )}
                         </div>
 
@@ -209,13 +209,13 @@ const ChatPage = () => {
                                 className={styles.input}
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
-                                placeholder="Write a message..."
+                                placeholder="Escribe un mensaje..."
                             />
-                            <button className={styles.sendButton} onClick={handleSendMessage}>Send</button>
+                            <button className={styles.sendButton} onClick={handleSendMessage}>Enviar</button>
                         </div>
                     </>
                 ) : (
-                    <div className={styles.noChatSelected}>No chat selected</div>
+                    <div className={styles.noChatSelected}>Selecciona un chat.</div>
                 )}
             </div>
         </div>
