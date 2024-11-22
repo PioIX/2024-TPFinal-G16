@@ -117,7 +117,7 @@ const ProfilePage = ({ sub }) => {
     };
 
     if (loading) {
-        return <div>Loading profile...</div>;
+        return <div>Cargando Perfil...</div>;
     }
 
     if (error) {
@@ -144,15 +144,15 @@ const ProfilePage = ({ sub }) => {
                     {/* Estadísticas del usuario */}
                     <div style={{ display: "flex", flexDirection: "row", gap: "8%", width: '100%', justifyContent: "center"}} className={styles.userStats}>
                         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Posts</p>
+                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Publicaciones</p>
                             <p style={{ fontSize: "1.5em" }}>{posts || "0"}</p>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followers</p>
+                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Seguidores</p>
                             <p style={{ fontSize: "1.5em" }}>{followers || "0"}</p>
                         </div>
                         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followed</p>
+                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Seguidos</p>
                             <p style={{ fontSize: "1.5em" }}>{followees || "0"}</p>
                         </div>
 
@@ -164,7 +164,7 @@ const ProfilePage = ({ sub }) => {
                             onClick={handleFollowClick}
                             style={{ fontSize: "1.1em" }}
                         >
-                            {following ? "Unfollow" : "Follow"}
+                            {following ? "Siguiendo" : "Seguir"}
                         </button>
                         </div>
                     )}

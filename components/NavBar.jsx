@@ -97,7 +97,7 @@ const NavBar = () => {
                       className="btn btn-primary btn-margin"
                       tabIndex={0}
                       testId="navbar-login-desktop">
-                      Log in
+                      Iniciar Sesión
                     </AnchorLink>
                   </NavItem>
                 )}
@@ -122,7 +122,7 @@ const NavBar = () => {
                       <div className={styles.Squarelink} style={{width: "100%"}}>
                         <DropdownItem className="dropdown-profile" tag="span">
                           <PageLink href="/profilee" icon="user" className={styles.link} testId="navbar-profile-desktop" userSub={user.sub}>
-                                  Profile
+                                  Perfil
                           </PageLink>
                         </DropdownItem>
                       </div>
@@ -130,7 +130,7 @@ const NavBar = () => {
                       <div className={styles.Squarelink} style={{width: "100%"}}>
                         <DropdownItem id="qsLogoutBtn">
                           <AnchorLink href="/api/auth/logout" className={styles.link} icon="power-off" testId="navbar-logout-desktop">
-                                Log out
+                                Cerrar Sesión
                           </AnchorLink>
                         </DropdownItem>
                       </div>
@@ -146,7 +146,7 @@ const NavBar = () => {
                     className="btn btn-primary btn-block"
                     tabIndex={0}
                     testId="navbar-login-mobile">
-                    Log in
+                    Iniciar Sesión
                   </AnchorLink>
                 </Nav>
               )}
@@ -200,14 +200,14 @@ const NavBar = () => {
                         <div className={styles.Squarelink} style={{width: "100%"}}>
                           <DropdownItem className="dropdown-profile" tag="span">
                             <PageLink href="/profilee" icon="user" className={styles.link} testId="navbar-profile-desktop" userSub={user.sub}>
-                                    Profile
+                                    Perfil
                             </PageLink>
                           </DropdownItem>
                         </div>
                         <div className={styles.Squarelink} style={{width: "100%"}}>
                           <DropdownItem id="qsLogoutBtn">
                             <AnchorLink href="/api/auth/logout" className={styles.link} icon="power-off" testId="navbar-logout-desktop">
-                                  Log out
+                                  Cerrar Sesión
                             </AnchorLink>
                           </DropdownItem>
                         </div>
