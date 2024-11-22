@@ -7,6 +7,7 @@ import Loading from '../../../components/Loading';
 import ErrorMessage from '../../../components/ErrorMessage';
 import styles from './ChatPage.module.css';
 import { useSocket } from "../../../hooks/useSocket";
+import Link from 'next/link';
 
 const ChatPage = () => {
     const { socket, isConnected } = useSocket();
@@ -174,30 +175,12 @@ const ChatPage = () => {
 
     return (
         <div className={styles.chatPageContainer}>
-            {/* Barra lateral con los chats */}
-            <div className={styles.sidebar}>
-                <h3>Chats</h3>
-                {chats.length > 0 ? (
-                    chats.map((chat) => (
-                        <div
-                            key={chat.chatID}
-                            className={`${styles.chatItem} ${selectedChat === chat.chatID ? styles.selectedChat : ""}`}
-                            onClick={() => handleChatClick(chat.chatID)}
-                        >
-                            <img src={chat.picture} alt={`${chat.nickname}'s avatar`} className={styles.avatar} />
-                            <p>{chat.nickname}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>No chats available.</p>
-                )}
-            </div>
-
             {/* Mensajes del chat seleccionado */}
             <div className={styles.chatContent}>
                 {selectedChat ? (
                     <>
                         <div className={styles.messagesContainer}>
+                            <Link href={"/chats"} className={styles.link}>VOLVER A CHATS</Link>
                             {messages.length > 0 ? (
                                 messages.map((message, index) => {
                                     let messageDate = new Date(message.creation);

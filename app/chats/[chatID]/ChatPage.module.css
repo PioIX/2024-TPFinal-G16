@@ -66,7 +66,9 @@
     word-wrap: break-word;
 }
 
-
+.link {
+    margin-bottom: 2%;
+}
 
 .inputContainer {
     display: flex;

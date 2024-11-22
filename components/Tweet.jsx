@@ -8,11 +8,13 @@ import Interactions from "./Interactions";
 
 
 const Tweet = ({ id, user, content, media, likesCount, retweetsCount, commentsCount, savesCount, isLiked, isSaved, isRetweeted, tweetDate }) => {
+    let tweetFinalDate = new Date(tweetDate);
+    tweetFinalDate.setHours(tweetFinalDate.getHours() - 3);
     return (
         <div className={styles.tweet}>
             <div className={styles.InfoTweet}>
                 {user && <UserProfile user={user} />}
-                <span>{tweetDate}</span>
+                <span>{tweetFinalDate.toLocaleTimeString("en-US", { timeZone: 'America/Argentina/Buenos_Aires' })}</span>
             </div>
             <p>{content}</p>
             {media && <Media media={media} />}

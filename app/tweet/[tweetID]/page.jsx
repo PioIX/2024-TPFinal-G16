@@ -131,6 +131,7 @@ const TweetDetailPage = () => {
                     isLiked={tweet.isLiked}
                     isRetweeted={tweet.isRetweeted}
                     isSaved={tweet.isSaved}
+                    tweetDate={tweet.creation}
                 />
             <div className={styles.inputContainer}>
                 <input className={styles.Input} placeholder="¿Qué está pasando?" onChange={handleNewTweetChange} />
@@ -161,6 +162,7 @@ const TweetDetailPage = () => {
                         isLiked={tweet.isLiked}
                         isRetweeted={tweet.isRetweeted}
                         isSaved={tweet.isSaved}
+                        tweetDate={tweet.creation}
                     />
                     </Link>
                 ))}

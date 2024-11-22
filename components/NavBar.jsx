@@ -117,7 +117,7 @@ const NavBar = () => {
                         {user.name}
                       </DropdownItem>
                       <DropdownItem className="dropdown-profile" tag="span">
-                        <PageLink href="/profilee" icon="user" testId="navbar-profile-desktop">
+                        <PageLink href="/profilee/" icon="user" testId="navbar-profile-desktop" userSub={user.sub}>
                           Profile
                         </PageLink>
                       </DropdownItem>

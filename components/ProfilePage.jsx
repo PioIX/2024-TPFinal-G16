@@ -11,10 +11,14 @@ const ProfilePage = ({ sub }) => {
     const [tweets, setTweets] = useState([]);
     const [userLikes, setUserLikes] = useState([]);
     const [userRetweets, setUserRetweets] = useState([]);
+    const [userSaves, setUserSaves] = useState([]); // Estado para los saves
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedTab, setSelectedTab] = useState("tweets"); // Nuevo estado para el tab seleccionado
     const [following, setFollowing] = useState(false);
+    const [followers, setFollowers] = useState(0);
+    const [followees, setFollowees] = useState(0);
+    const [posts, setPosts] = useState(0);
 
     const fetchWithErrorHandling = async (url, errorMessage) => {
         try {
@@ -30,16 +34,17 @@ const ProfilePage = ({ sub }) => {
     };
 
     useEffect(() => {
-        if (!sub) return;
+        if (!sub || !user) return;
 
         const fetchUserProfile = async () => {
             try {
-                const response = await fetch(`http://localhost:5001/user/${encodeURIComponent(sub)}`);
+                const response = await fetch(`http://localhost:5001/user/${encodeURIComponent(sub)}?userID=${user.sub}`);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch user profile. Status: ${response.status}`);
                 }
                 const data = await response.json();
                 setUserProfile(data.user);
+                console.log(data.user);
             } catch (err) {
                 console.error('Error fetching user profile:', err);
                 setError(`Error fetching user profile: ${err.message}`);
@@ -49,23 +54,28 @@ const ProfilePage = ({ sub }) => {
         };
 
         fetchUserProfile();
-    }, [sub]);
+    }, [user, sub]);
 
     useEffect(() => {
         if (!user || !sub || !userProfile) return;
 
+        console.log(sub)
+        console.log(user.sub)
+
         const fetchData = async () => {
             try {
-                const [tweetsRes, likesRes, retweetsRes] = await Promise.all([
+                const [tweetsRes, likesRes, retweetsRes, savesRes] = await Promise.all([
                     fetchWithErrorHandling(`http://localhost:5001/user/${sub}/tweets?userID=${user.sub}`, 'Failed to fetch tweets'),
                     fetchWithErrorHandling(`http://localhost:5001/user/${sub}/likes?userID=${user.sub}`, 'Failed to fetch likes'),
                     fetchWithErrorHandling(`http://localhost:5001/user/${sub}/retweets?userID=${user.sub}`, 'Failed to fetch retweets'),
+                    sub === user.sub ? fetchWithErrorHandling(`http://localhost:5001/user/${sub}/saves?userID=${user.sub}`, 'Failed to fetch saves') : Promise.resolve({ tweets: [] })
                 ]);
 
                 setTweets(tweetsRes.tweets);
-                console.log(tweets)
                 setUserLikes(likesRes.tweets);
                 setUserRetweets(retweetsRes.tweets);
+                if (sub === user.sub) setUserSaves(savesRes.tweets);
+                console.log(userSaves)
             } catch (err) {
                 setError(err.message);
             }
@@ -75,8 +85,13 @@ const ProfilePage = ({ sub }) => {
     }, [user, userProfile, sub]);
 
     useEffect(() => {
-        console.log("Updated tweets:", tweets);
-    }, [tweets]);
+        if (!user || !sub || !userProfile) return;
+
+        setFollowees(userProfile.followeesCount);
+        setFollowers(userProfile.followersCount);
+        setPosts(userProfile.tweetsCount);
+        setFollowing(userProfile.isFollowing);
+    }, [userProfile]);
 
     const handleFollowClick = async () => {
         try {
@@ -94,6 +109,7 @@ const ProfilePage = ({ sub }) => {
             }
 
             setFollowing(!following);
+            following ? setFollowers((prevFollowers) => prevFollowers - 1) : setFollowers((prevFollowers) => prevFollowers + 1);
         } catch (err) {
             console.error("Error updating follow status:", err);
             setError("Failed to update follow status");
@@ -127,61 +143,31 @@ const ProfilePage = ({ sub }) => {
 
                     {/* Estadísticas del usuario */}
                     <div style={{ display: "flex", flexDirection: "row", gap: "20%" }}>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                alignContent: "center",
-                                textAlign: "center",
-                                gap: "5%",
-                            }}
-                        >
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
                             <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Posts</p>
-                            <p style={{ fontSize: "1.5em" }}>{userProfile.posts || "0"}</p>
+                            <p style={{ fontSize: "1.5em" }}>{posts || "0"}</p>
                         </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                alignContent: "center",
-                                textAlign: "center",
-                                gap: "5%",
-                            }}
-                        >
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
                             <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followers</p>
-                            <p style={{ fontSize: "1.5em" }}>{userProfile.followers || "0"}</p>
+                            <p style={{ fontSize: "1.5em" }}>{followers || "0"}</p>
                         </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                alignContent: "center",
-                                textAlign: "center",
-                                gap: "5%",
-                            }}
-                        >
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
                             <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followed</p>
-                            <p style={{ fontSize: "1.5em" }}>{userProfile.followed || "0"}</p>
+                            <p style={{ fontSize: "1.5em" }}>{followees || "0"}</p>
                         </div>
                     </div>
 
-                    {/* Botón de seguir */}
-                    <button
-                        className={following ? styles.followButtonClicked : styles.followButton}
-                        onClick={handleFollowClick}
-                    >
-                        {following ? "Unfollow" : "Follow"}
-                    </button>
+                    {/* Botón de seguir (solo si el perfil no es del usuario actual) */}
+                    {sub !== user.sub && (
+                        <button
+                            className={following ? styles.followButtonClicked : styles.followButton}
+                            onClick={handleFollowClick}
+                        >
+                            {following ? "Unfollow" : "Follow"}
+                        </button>
+                    )}
 
-                    {/* Bio del usuario */}
-                    <div className={styles.bio}>
-                        <p>{userProfile.bio || "Este usuario aún no tiene una bio."}</p>
-                    </div>
-
-                    {/* Tabs para alternar entre Tweets, Likes y Retweets */}
+                    {/* Tabs para alternar entre Tweets, Likes, Retweets y Saves (si es el perfil del usuario actual) */}
                     <div className={styles.tabs}>
                         <button
                             className={selectedTab === "tweets" ? styles.activeTab : styles.tab}
@@ -201,6 +187,14 @@ const ProfilePage = ({ sub }) => {
                         >
                             Retweets
                         </button>
+                        {sub === user.sub && (
+                            <button
+                                className={selectedTab === "saves" ? styles.activeTab : styles.tab}
+                                onClick={() => setSelectedTab("saves")}
+                            >
+                                Saves
+                            </button>
+                        )}
                     </div>
 
                     {/* Renderizado condicional según la pestaña seleccionada */}
@@ -227,6 +221,7 @@ const ProfilePage = ({ sub }) => {
                                         isLiked={tweet.isLiked}
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
+                                        tweetDate={tweet.creation}
                                     />
                                 ))
                             ) : (
@@ -258,6 +253,7 @@ const ProfilePage = ({ sub }) => {
                                         isLiked={tweet.isLiked}
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
+                                        tweetDate={tweet.creation}
                                     />
                                 ))
                             ) : (
@@ -289,11 +285,43 @@ const ProfilePage = ({ sub }) => {
                                         isLiked={tweet.isLiked}
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
+                                        tweetDate={tweet.creation}
                                     />
-
                                 ))
                             ) : (
                                 <p>Este usuario aún no ha hecho retweets.</p>
+                            )}
+                        </div>
+                    )}
+
+                    {selectedTab === "saves" && sub === user.sub && (
+                        <div className={styles.saves}>
+                            <h3>Saved Tweets</h3>
+                            {userSaves.length > 0 ? (
+                                userSaves.map((tweet) => (
+                                    <Tweet
+                                        key={tweet.tweetID}
+                                        user={{
+                                            picture: tweet.picture,
+                                            name: tweet.name,
+                                            sub: tweet.userID,
+                                        }}
+                                        userHandle={tweet.userID}
+                                        content={tweet.content}
+                                        media={tweet.mediaURL}
+                                        id={tweet.tweetID}
+                                        likesCount={tweet.likesCount}
+                                        retweetsCount={tweet.retweetsCount}
+                                        savesCount={tweet.savesCount}
+                                        commentsCount={tweet.commentsCount}
+                                        isLiked={tweet.isLiked}
+                                        isRetweeted={tweet.isRetweeted}
+                                        isSaved={tweet.isSaved}
+                                        tweetDate={tweet.creation}
+                                    />
+                                ))
+                            ) : (
+                                <p>No has guardado ningún tweet.</p>
                             )}
                         </div>
                     )}
