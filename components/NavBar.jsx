@@ -65,7 +65,7 @@ const NavBar = () => {
                 <>
                   <NavItem className={styles.desktopOnly}>
                     <div onClick={handleImageHomeChange} style={{ cursor: 'pointer', display: 'inline-block'}}>
-                      <PageLink href="/csr" className="nav-link p-0 m-0" testId="navbar-csr">
+                      <PageLink href="/tweet" className="nav-link p-0 m-0" testId="navbar-csr">
                           <img style={{width:"45px", height:"45px"}} src={imageHome}></img>
 
                       </PageLink>
@@ -73,7 +73,7 @@ const NavBar = () => {
                   </NavItem>
                   <NavItem className={styles.desktopOnly}>
                     <div onClick={handleImageLupaChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                      <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">
+                      <PageLink href="/search" className="nav-link p-0 m-0" testId="navbar-external">
                           <img style={{width:"45px", height:"45px"}} src={imageLupa}/>
                       </PageLink>
                     </div>
@@ -81,7 +81,7 @@ const NavBar = () => {
                   <img src='/images/logo.png' className={styles.desktopOnly}width={"200px"} height={"100px"} alt='Logo'></img>
                   <NavItem className={styles.desktopOnly}>
                     <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                      <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">
+                      <PageLink href="/chats" className="nav-link p-0 m-0" testId="navbar-external">
                         <img style={{width:"45px", height:"45px"}} src={imageChat}></img>
 
                       </PageLink>
@@ -121,7 +121,7 @@ const NavBar = () => {
 
                       <div className={styles.Squarelink} style={{width: "100%"}}>
                         <DropdownItem className="dropdown-profile" tag="span">
-                          <PageLink href="/profile" icon="user" className={styles.link} testId="navbar-profile-desktop">
+                          <PageLink href="/profilee" icon="user" className={styles.link} testId="navbar-profile-desktop" userSub={user.sub}>
                                   Profile
                           </PageLink>
                         </DropdownItem>
@@ -180,21 +180,21 @@ const NavBar = () => {
                               <div style={{display:"flex", width:"100%", gap:"7%", flexDirection:"column", alignItems:"center", textAlign:"center", justifyContent:"space-around"}}>
                                     <NavItem>
                                       <div onClick={handleImageHomeChange} style={{ cursor: 'pointer', display: 'inline-block'}}>
-                                        <PageLink href="/csr" className="nav-link p-0 m-0" testId="navbar-csr">
+                                        <PageLink href="/tweet" className="nav-link p-0 m-0" testId="navbar-csr">
                                             <img style={{width:"30px", height:"30px"}} src={imageHome}></img>
                                         </PageLink>
                                       </div>
                                     </NavItem>
                                     <NavItem>
                                       <div onClick={handleImageLupaChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                                        <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">
+                                        <PageLink href="/search" className="nav-link p-0 m-0" testId="navbar-external">
                                             <img style={{width:"30px", height:"30px"}} src={imageLupa}/>
                                         </PageLink>
                                       </div>
                                     </NavItem>
                                     <NavItem>
                                       <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                                        <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">
+                                        <PageLink href="/chats" className="nav-link p-0 m-0" testId="navbar-external">
                                           <img style={{width:"30px", height:"30px"}} src={imageChat}></img>
                                         </PageLink>
                                       </div>
@@ -202,13 +202,14 @@ const NavBar = () => {
                           </div>
                           <DropdownItem style={{color: '#ffffff'}} header data-testid="navbar-user-desktop">
                             {user.name}
+
                           </DropdownItem>
                             <NavItem className={styles.profilePicture}>
                               <img style={{width:"50px", height:"50px", borderRadius:"30px"}} src={user.picture}></img>
                             </NavItem>
                           <div className={styles.Squarelink} style={{width: "100%"}}>
                             <DropdownItem className="dropdown-profile" tag="span">
-                              <PageLink href="/profile" icon="user" className={styles.link} testId="navbar-profile-desktop">
+                              <PageLink href="/profilee" icon="user" className={styles.link} testId="navbar-profile-desktop" userSub={user.sub}>
                                       Profile
                               </PageLink>
                             </DropdownItem>

@@ -9,7 +9,7 @@ export default function Input({ placeholder }) {
     };
 
     return (
-        <div>
+        <div className={styles.contenedor} style={{background: 'aqua'}}>
             <input
                 className={styles.Input}
                 value={inputValue}

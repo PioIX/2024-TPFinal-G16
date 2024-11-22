@@ -1008,6 +1008,43 @@ app.post('/chats/:chatID/messages', async function (req, res) {
     }
 });
 
+app.delete('/tweets/:tweetID', async function (req, res) {
+    try {
+        const { tweetID } = req.params;
+        const { userID } = req.query; // El ID del usuario que solicita borrar el tweet
+
+        // Verificar si el tweetID y userID existen
+        if (!tweetID || !userID) {
+            return res.status(400).send({ status: "error", message: "tweetID and userID are required" });
+        }
+
+        // Verificar si el tweet existe y si pertenece al usuario
+        const tweet = await MySQL.makeQuery(`SELECT * FROM TweetsOwl WHERE tweetID = ? AND userID = ?`, [tweetID, userID]);
+        if (tweet.length === 0) {
+            return res.status(404).send({ status: "error", message: "Tweet not found or not authorized to delete" });
+        }
+
+        // Eliminar todos los likes asociados al tweet
+        await MySQL.makeQuery(`DELETE FROM LikesOwl WHERE tweetID = ?`, [tweetID]);
+
+        // Eliminar todos los retweets asociados al tweet
+        await MySQL.makeQuery(`DELETE FROM RetweetsOwl WHERE tweetID = ?`, [tweetID]);
+
+        // Eliminar todos los saves asociados al tweet
+        await MySQL.makeQuery(`DELETE FROM SavesOwl WHERE tweetID = ?`, [tweetID]);
+
+        // Eliminar todos los comentarios asociados al tweet
+        await MySQL.makeQuery(`DELETE FROM CommentsOwl WHERE tweetID = ?`, [tweetID]);
+
+        // Finalmente, eliminar el tweet en sí mismo
+        await MySQL.makeQuery(`DELETE FROM TweetsOwl WHERE tweetID = ?`, [tweetID]);
+
+        res.send({ status: "ok", message: "Tweet deleted successfully!" });
+    } catch (error) {
+        console.error('Error deleting tweet:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while deleting the tweet." });
+    }
+});
 
 
 

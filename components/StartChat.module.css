@@ -29,7 +29,7 @@
 }
 
 .input:focus {
-    border-color: #1da1f2; /* Color azul claro para el borde cuando se enfoca */
+    border-color: #238636; /* Color azul claro para el borde cuando se enfoca */
 }
 
 .button {
@@ -37,7 +37,7 @@
     max-width: 200px;
     padding: 10px;
     font-size: 1rem;
-    background-color: #1da1f2; /* Azul claro */
+    background-color: #238636; /* Azul claro */
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -46,7 +46,7 @@
 }
 
 .button:hover {
-    background-color: #0a8cd8; /* Azul más oscuro al pasar el ratón */
+    background-color: #1a5a28; /* Azul más oscuro al pasar el ratón */
 }
 
 .error {

@@ -142,7 +142,7 @@ const ProfilePage = ({ sub }) => {
                     </div>
 
                     {/* Estadísticas del usuario */}
-                    <div style={{ display: "flex", flexDirection: "row", gap: "20%" }}>
+                    <div style={{ display: "flex", flexDirection: "row", gap: "8%", width: '100%', justifyContent: "center"}} className={styles.userStats}>
                         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
                             <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Posts</p>
                             <p style={{ fontSize: "1.5em" }}>{posts || "0"}</p>
@@ -155,17 +155,22 @@ const ProfilePage = ({ sub }) => {
                             <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followed</p>
                             <p style={{ fontSize: "1.5em" }}>{followees || "0"}</p>
                         </div>
-                    </div>
 
-                    {/* Botón de seguir (solo si el perfil no es del usuario actual) */}
+                        {/* Botón de seguir (solo si el perfil no es del usuario actual) */}
                     {sub !== user.sub && (
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
                         <button
                             className={following ? styles.followButtonClicked : styles.followButton}
                             onClick={handleFollowClick}
+                            style={{ fontSize: "1.1em" }}
                         >
                             {following ? "Unfollow" : "Follow"}
                         </button>
+                        </div>
                     )}
+                    </div>
+
+                    
 
                     {/* Tabs para alternar entre Tweets, Likes, Retweets y Saves (si es el perfil del usuario actual) */}
                     <div className={styles.tabs}>
@@ -222,6 +227,7 @@ const ProfilePage = ({ sub }) => {
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.userID == user.sub}
                                     />
                                 ))
                             ) : (
@@ -254,6 +260,7 @@ const ProfilePage = ({ sub }) => {
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.userID == user.sub}
                                     />
                                 ))
                             ) : (
@@ -286,6 +293,7 @@ const ProfilePage = ({ sub }) => {
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.userID == user.sub}
                                     />
                                 ))
                             ) : (
@@ -318,6 +326,7 @@ const ProfilePage = ({ sub }) => {
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.tweetID == user.sub}
                                     />
                                 ))
                             ) : (
