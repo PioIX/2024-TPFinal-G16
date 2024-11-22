@@ -78,10 +78,6 @@
     background-color: #238636;
 }
 
-.tweets {
-    margin-top: 20px;
-}
-
 .tweet {
     background-color: #151b23;
     padding: 15px;
@@ -93,4 +89,39 @@
 .tweet span {
     font-size: 12px;
     color: #657786;
+}
+.tabs{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-top: 5%;
+    width: 100%;
+    gap: 5%;
+}
+.activeTab{
+    background: #238636;
+    width: 20%;
+    font-size: 1.3em;
+    border  : none; /* Sin borde */
+    border-radius: 10px;
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    text-align: center;
+    color: white;
+}
+.tabButton{
+    width: 20%;
+    text-align: center;
+    background-color: transparent; /* Sin fondo */
+    border  : none; /* Sin borde */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    border-radius: 10px;
+    font-size: 1.3em;
+    color: white;
+}
+.tabButton:hover{
+    border-color: #238636;
+    background: #238636;
+
 }

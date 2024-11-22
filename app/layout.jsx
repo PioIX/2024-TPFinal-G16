@@ -9,7 +9,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="bg-dark">
+    <html lang="en" style={{ backgroundColor: '#151b23'}}>
       <head>
         <link
           rel="stylesheet"
@@ -19,9 +19,9 @@ export default function RootLayout({ children }) {
         />
         <link rel="stylesheet" href="https://cdn.auth0.com/js/auth0-samples-theme/1.0/css/auth0-theme.min.css" />
       </head>
-      <body className="bg-dark">
+      <body style={{ backgroundColor: '#151b23'}}>
         <UserProvider>
-          <main id="app" className="d-flex flex-column h-100 bg-dark" data-testid="layout">
+          <main id="app" className="d-flex flex-column h-100" style={{ backgroundColor: '#151b23'}} data-testid="layout">
             <NavBar />
             <Container className="flex-grow-1 mt-5">{children}</Container>
             <Footer />

@@ -1,7 +1,40 @@
 .mrAuto{
     width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    align-Content: "center";
+    align-Content: center;
 }
+.link{
+    display: block;
+    color: white;
+    width: 100%;
+    object-fit: cover;
+}
+.link:hover{
+    text-decoration: underline;
+}
+.Squarelink:hover{
+    background: #194eb9;
+}
+.menuMobile{
+    background: black;
+}
+@media (max-width: 768px) {
+    .desktopOnly {
+      display: none; /* Hide on screens smaller than 768px */
+    }
+  }
+@media (max-width: 768px) {
+    .mrAuto {
+      display: none; /* Hide on screens smaller than 768px */
+    }
+}
+@media (max-width: 458px) {
+    .mrAuto {
+      display: none; /* Hide on screens smaller than 768px */
+    }
+}
+
+
