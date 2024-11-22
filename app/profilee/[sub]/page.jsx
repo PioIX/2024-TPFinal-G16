@@ -7,7 +7,7 @@ import ProfilePage from '../../../components/ProfilePage'; // Ajusta la ruta seg
 const UserProfilePage = () => {
     const params = useParams();
     const sub = params?.sub;
-    
+    let modifiedSub = sub.replace("%7C", "|");
 
     // Imprime el valor del sub para verificar que se captura correctamente
     console.log('Received sub:', sub);
@@ -19,7 +19,7 @@ const UserProfilePage = () => {
 
     return (
         // Reutilizar el componente ProfilePage y pasar el sub como prop
-        <ProfilePage sub={sub} />
+        <ProfilePage sub={modifiedSub} />
     );
 };
 

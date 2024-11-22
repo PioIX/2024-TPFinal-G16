@@ -132,10 +132,10 @@ const Interactions = ({ likes, retweets, comments, saves, isLiked, isSaved, isRe
                     <img src={imageRetweetClicked? "/images/retweetClicked.png" : "/images/retweetUnclicked.png"} alt="Heart" height="20px" width="20px"/> 
                     {tweetRetweets}
                 </div>
-                <div className={styles.Span}>
+                {/* <div className={styles.Span}>
                     <img src="/images/comment.png" alt="Heart" height="20px" width="20px"/>
                     {comments}
-                </div>
+                </div> */}
                 <div className={styles.Span} onClick={handleImageSavedChange}> 
                     <img src={imageSavedClicked? "/images/savedClicked.png": "/images/savedUnclicked.png"} alt="Heart" height="20px" width="20px"/> 
                     {tweetSaves}

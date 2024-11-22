@@ -67,6 +67,7 @@ const NavBar = () => {
                     <div onClick={handleImageHomeChange} style={{ cursor: 'pointer', display: 'inline-block'}}>
                       <PageLink href="/csr" className="nav-link p-0 m-0" testId="navbar-csr">
                           <img style={{width:"45px", height:"45px"}} src={imageHome}></img>
+
                       </PageLink>
                     </div>
                   </NavItem>
@@ -82,6 +83,7 @@ const NavBar = () => {
                     <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
                       <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">
                         <img style={{width:"45px", height:"45px"}} src={imageChat}></img>
+
                       </PageLink>
                     </div>
                   </NavItem>
@@ -104,7 +106,7 @@ const NavBar = () => {
                     <DropdownToggle style={{display:"flex", alignContent: "center", alignItems:"center"}}nav caret id="profileDropDown">
                       <img
                         src={user.picture}
-                        alt="Profile"
+                        alt="Profilee"
                         className="nav-user-profile rounded-circle"
                         width="60"
                         height="60"
@@ -116,6 +118,7 @@ const NavBar = () => {
                       <DropdownItem style={{color: '#ffffff'}} header data-testid="navbar-user-desktop">
                         {user.name}
                       </DropdownItem>
+
                       <div className={styles.Squarelink} style={{width: "100%"}}>
                         <DropdownItem className="dropdown-profile" tag="span">
                           <PageLink href="/profile" icon="user" className={styles.link} testId="navbar-profile-desktop">
@@ -123,13 +126,7 @@ const NavBar = () => {
                           </PageLink>
                         </DropdownItem>
                       </div>
-                      <div className={styles.Squarelink} style={{width: "100%"}}>
-                        <DropdownItem className="dropdown-profile" tag="span">
-                          <PageLink href="/saved" icon="saved" className={styles.link}testId="navbar-profile-desktop"> 
-                              Saved
-                          </PageLink>
-                        </DropdownItem>
-                      </div>
+
                       <div className={styles.Squarelink} style={{width: "100%"}}>
                         <DropdownItem id="qsLogoutBtn">
                           <AnchorLink href="/api/auth/logout" className={styles.link} icon="power-off" testId="navbar-logout-desktop">
@@ -137,6 +134,7 @@ const NavBar = () => {
                           </AnchorLink>
                         </DropdownItem>
                       </div>
+
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 )}

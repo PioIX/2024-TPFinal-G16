@@ -28,6 +28,8 @@ const Feed = ({ tweets }) => {
                     isLiked={tweet.isLiked}
                     isRetweeted={tweet.isRetweeted}
                     isSaved={tweet.isSaved}
+                    tweetDate={tweet.creation}
+
                 />
                 // </Link>
             ))}

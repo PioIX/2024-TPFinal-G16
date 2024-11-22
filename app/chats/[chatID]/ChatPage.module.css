@@ -91,6 +91,7 @@
     max-width: 70%;
     word-wrap: break-word;
 }
+
 .content{
     font-size: 1.2em;
     margin-top: 5%;
@@ -105,6 +106,10 @@
     border-width: 1px;
     border-radius: 2px;
 }
+
+.link {
+    margin-bottom: 2%;
+
 .inputContainer {
     gap: 2%;
     display: flex;
