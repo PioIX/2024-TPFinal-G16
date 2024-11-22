@@ -6,8 +6,10 @@ import InputSearch from "../../components/InputSearch"; // Asegúrate de que la 
 import Tweet from "../../components/Tweet";
 import { useRouter } from "next/navigation"; // Para redirigir a perfiles
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const SearchPage = () => {
+    const { user, isLoading, error } = useUser();
     const [results, setResults] = useState({ users: [], tweets: [] });
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState('');
@@ -108,6 +110,7 @@ const SearchPage = () => {
                                         isRetweeted={tweet.isRetweeted || false}
                                         isSaved={tweet.isSaved || false}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.userID == user.sub}
                                     />
                                 ))}
                             </>

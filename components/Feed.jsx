@@ -1,21 +1,27 @@
-"use client"
+"use client";
 
 import React from 'react';
 import Tweet from './Tweet';
 import Link from "next/link";
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 const Feed = ({ tweets }) => {
+    const { user } = useUser();
+
+    // Verificar si el usuario está definido antes de ejecutar el resto del código
+    if (!user) {
+        return null; // No renderizar nada si el usuario no está definido
+    }
+
     return (
         <div>
-            {console.log(tweets)}
             {tweets.map((tweet) => (
-                // <Link href={`/tweet/${tweet.tweetID}`} key={tweet.tweetID}>
                 <Tweet
                     key={tweet.tweetID}
                     user={{
                         picture: tweet.picture,
                         name: tweet.name,
-                        sub: tweet.userID
+                        sub: tweet.userID,
                     }}
                     userHandle={tweet.userID}
                     content={tweet.content}
@@ -29,9 +35,8 @@ const Feed = ({ tweets }) => {
                     isRetweeted={tweet.isRetweeted}
                     isSaved={tweet.isSaved}
                     tweetDate={tweet.creation}
-
+                    isOwnTweet={tweet.userID === user.sub} // Verificar si el tweet pertenece al usuario actual
                 />
-                // </Link>
             ))}
         </div>
     );

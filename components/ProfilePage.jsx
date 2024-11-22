@@ -142,7 +142,7 @@ const ProfilePage = ({ sub }) => {
                     </div>
 
                     {/* Estadísticas del usuario */}
-                    <div style={{ display: "flex", flexDirection: "row", gap: "20%" }}>
+                    <div style={{ display: "flex", flexDirection: "row", gap: "8%", width: '100%', justifyContent: "center"}} className={styles.userStats}>
                         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
                             <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Posts</p>
                             <p style={{ fontSize: "1.5em" }}>{posts || "0"}</p>
@@ -227,6 +227,7 @@ const ProfilePage = ({ sub }) => {
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.userID == user.sub}
                                     />
                                 ))
                             ) : (
@@ -259,6 +260,7 @@ const ProfilePage = ({ sub }) => {
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.userID == user.sub}
                                     />
                                 ))
                             ) : (
@@ -291,6 +293,7 @@ const ProfilePage = ({ sub }) => {
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.userID == user.sub}
                                     />
                                 ))
                             ) : (
@@ -323,6 +326,7 @@ const ProfilePage = ({ sub }) => {
                                         isRetweeted={tweet.isRetweeted}
                                         isSaved={tweet.isSaved}
                                         tweetDate={tweet.creation}
+                                        isOwnTweet={tweet.tweetID == user.sub}
                                     />
                                 ))
                             ) : (

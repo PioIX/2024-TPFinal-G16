@@ -44,6 +44,7 @@
     background-color: #151b23;
     color: #ffffff;
     outline: none;
+    justify-content: center;
 }
 
 .Input {

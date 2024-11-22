@@ -199,7 +199,7 @@ const NavBar = () => {
                         </DropdownItem>
                         <div className={styles.Squarelink} style={{width: "100%"}}>
                           <DropdownItem className="dropdown-profile" tag="span">
-                            <PageLink href="/profile" icon="user" className={styles.link} testId="navbar-profile-desktop" userSub={user.sub}>
+                            <PageLink href="/profilee" icon="user" className={styles.link} testId="navbar-profile-desktop" userSub={user.sub}>
                                     Profile
                             </PageLink>
                           </DropdownItem>
