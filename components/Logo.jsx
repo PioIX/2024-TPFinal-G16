@@ -5,7 +5,7 @@ import styles from "./Logo.module.css"
 const Logo = () => (
   <div style={{display: "flex", flexDirection: "column"}}>
     <div>
-      <img src='/images/loguito.png' width={"400px"} height={"500px"}></img>
+      <img src='/images/loguito.png' className={styles.Loguito}></img>
     </div>
     <div style={{display: "flex", flexDirection: "row", alignItems: "center", height: "15em", color:"#ffffff"}}>
       <h1 className="mb-4" data-testid="hero-title">

@@ -16,3 +16,13 @@
 .Paragraph{
     color: #ffffff;
 }
+.Loguito{
+    max-width: 100%;
+    height: 70vh;
+}
+@media (max-width: 768px) { /* Applies to screens narrower than 768px */
+    .Loguito {
+        margin-bottom: 20%;
+        height: 50vh; /* Maintain aspect ratio */
+    }
+}
