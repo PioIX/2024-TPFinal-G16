@@ -65,14 +65,14 @@ const NavBar = () => {
                 <>
                   <NavItem>
                     <div onClick={handleImageHomeChange} style={{ cursor: 'pointer', display: 'inline-block'}}>
-                      <PageLink href="/csr" className="nav-link p-0 m-0" testId="navbar-csr">
+                      <PageLink href="/tweet" className="nav-link p-0 m-0" testId="navbar-csr">
                           <img src={imageHome} width={"45px"} height={"45px"}></img>
                       </PageLink>
                     </div>
                   </NavItem>
                   <NavItem>
                     <div onClick={handleImageLupaChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                      <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">
+                      <PageLink href="/search" className="nav-link p-0 m-0" testId="navbar-external">
                           <img src={imageLupa} width="45px" height="45px"/>
                       </PageLink>
                     </div>
@@ -80,7 +80,7 @@ const NavBar = () => {
                   <img src='/images/logo.png' width={"200px"} height={"130px"} alt='Logo'></img>
                   <NavItem>
                     <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                      <PageLink href="/external" className="nav-link p-0 m-0" testId="navbar-external">
+                      <PageLink href="/chats" className="nav-link p-0 m-0" testId="navbar-external">
                         <img src={imageChat} width={"45px"} height={"45px"}></img>
                       </PageLink>
                     </div>
@@ -104,7 +104,7 @@ const NavBar = () => {
                     <DropdownToggle style={{display:"flex", alignContent: "center", alignItems:"center"}}nav caret id="profileDropDown">
                       <img
                         src={user.picture}
-                        alt="Profile"
+                        alt="Profilee"
                         className="nav-user-profile rounded-circle"
                         width="60"
                         height="60"
@@ -117,7 +117,7 @@ const NavBar = () => {
                         {user.name}
                       </DropdownItem>
                       <DropdownItem className="dropdown-profile" tag="span">
-                        <PageLink href="/profile" icon="user" testId="navbar-profile-desktop">
+                        <PageLink href="/profilee" icon="user" testId="navbar-profile-desktop">
                           Profile
                         </PageLink>
                       </DropdownItem>
