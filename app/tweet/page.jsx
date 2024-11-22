@@ -27,6 +27,7 @@ const TweetPage = () => {
         setActiveButton("followees"); // Set "Siguiendo" as active
     };
 
+
     useEffect(() => {
         const fetchTweets = async () => {
             if (!user) return
@@ -37,6 +38,7 @@ const TweetPage = () => {
                     throw new Error('Error fetching tweets');
                 }
                 const data = await response.json();
+                
                 setTweets(data.tweets);
             } catch (err) {
                 setFetchError(err.message);

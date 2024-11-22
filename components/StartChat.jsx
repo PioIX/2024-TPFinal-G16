@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import styles from './StartChat.module.css'; // Archivo de estilos
+import { useRouter } from 'next/navigation';
 
 const StartChat = ({ userID }) => {
+    const router = useRouter(); // Hook para redirigir al usuario
     const [nickname, setNickname] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
@@ -38,6 +40,11 @@ const StartChat = ({ userID }) => {
 
             setMessage('Chat created successfully!');
             setError('');
+
+            // Redirigir al nuevo chat usando el ID del chat recién creado
+            if (data.chat && data.chat.chatID) {
+                router.push(`/chats/${data.chat.chatID}`);
+            }
         } catch (err) {
             setError(err.message);
             setMessage('');

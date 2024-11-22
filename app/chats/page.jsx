@@ -64,20 +64,22 @@ const ChatsPage = () => {
             {/* Lista de chats existentes */}
             <div className={styles.chatsList}>
                 {chats.length > 0 ? (
-                    chats.map((chat) => (
-                        <Link key={chat.chatID} href={`/chats/${chat.chatID}`}>
+                    chats.map((chat) => {
+                        let chatDate = new Date(chat.creation);
+                        chatDate.setHours(chatDate.getHours() - 3);
+                        
+                        return (<Link key={chat.chatID} href={`/chats/${chat.chatID}`}>
                         <div className={styles.chatItem}>
                             <div className={styles.chatInfo}>
                                 <img src={chat.picture} alt={`${chat.givenName}'s avatar`} className={styles.avatar} />
                                 <div>
                                     <p className={styles.nickname}>{chat.nickname}</p>
-                                    <p className={styles.lastMessage}>{chat.content || 'No messages yet'}</p>
                                 </div>
                             </div>
-                            <p className={styles.timestamp}>{new Date(chat.creation).toLocaleString()}</p>
+                            <p className={styles.timestamp}>{chatDate.toLocaleTimeString("en-US", { timeZone: 'America/Argentina/Buenos_Aires' })}</p>
                         </div>
-                        </Link>
-                    ))
+                        </Link>)
+})
                 ) : (
                     <p>No chats available.</p>
                 )}

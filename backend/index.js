@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const MySQL = require('./modules/mysql');
 const http = require('http');
 const socketIo = require('socket.io');
+const { use } = require('react');
 
 const app = express();
 const port = 5001;
@@ -122,18 +123,55 @@ app.post('/register', async function (req, res) {
 app.get('/user/:sub', async function (req, res) {
     try {
         const sub = decodeURIComponent(req.params.sub); // Decodifica el sub recibido en la URL
-        let user = await MySQL.makeQuery(`SELECT * FROM UsersOwl WHERE sub = ?`, [sub]);
+        const userID = req.query.userID; // Obtiene el userID del usuario activo
 
-        if (user.length === 0) {
+        if (!userID) {
+            return res.status(400).send({ status: "error", message: "userID is required" });
+        }
+
+        // Realizar una única consulta para obtener todos los datos necesarios
+        const query = `
+            SELECT u.*, 
+                   (
+                       SELECT COUNT(*) 
+                       FROM FollowsOwl f 
+                       WHERE f.followeeID = u.sub
+                   ) AS followersCount,
+                   (
+                       SELECT COUNT(*) 
+                       FROM FollowsOwl f 
+                       WHERE f.followerID = u.sub
+                   ) AS followeesCount,
+                   (
+                       SELECT COUNT(*) 
+                       FROM TweetsOwl t 
+                       WHERE t.userID = u.sub
+                   ) AS tweetsCount,
+                   (
+                       SELECT COUNT(*) 
+                       FROM FollowsOwl f 
+                       WHERE f.followerID = ? AND f.followeeID = u.sub
+                   ) AS isFollowing
+            FROM UsersOwl u
+            WHERE u.sub = ?
+        `;
+
+        const results = await MySQL.makeQuery(query, [userID, sub]);
+
+        if (results.length === 0) {
             return res.status(404).send({ status: "error", message: "User not found" });
         }
 
-        res.send({ status: "ok", user: user[0] });
+        const user = results[0];
+        user.isFollowing = user.isFollowing > 0; // Convertir el valor en booleano
+
+        res.send({ status: "ok", user });
     } catch (error) {
         console.error('Error fetching user:', error);
         res.status(500).send({ status: "error", message: "An error occurred while fetching user." });
     }
 });
+
 
 
 app.post('/tweet', async function (req, res) {
@@ -394,6 +432,52 @@ app.post('/like', async function (req, res) {
     } catch (error) {
         console.error('Error fetching comments:', error);
         res.status(500).send({ status: "error", message: "An error occurred while fetching comments." });
+    }
+});
+
+app.get('/user/:sub/saves', async function (req, res) {
+    try {
+        const { sub } = req.params;
+        const { userID } = req.query; // Obtener el userID del usuario actual que realiza la petición
+
+        // Verificar si el userID y sub existen
+        if (!sub || !userID) {
+            return res.status(400).send({ status: "error", message: "userID and sub are required" });
+        }
+
+        // Verificar si el usuario existe
+        const userExists = await MySQL.makeQuery(`SELECT sub FROM UsersOwl WHERE sub = ?`, [sub]);
+        if (userExists.length === 0) {
+            return res.status(404).send({ status: "error", message: "User not found." });
+        }
+
+        // Obtener todos los tweets guardados por el usuario, junto con la información del usuario y métricas adicionales
+        const savedTweets = await MySQL.makeQuery(
+            `
+            SELECT t.*, 
+                   u.given_name AS name,
+                   u.nickname AS nickname,
+                   u.picture AS picture,
+                   COALESCE((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID), 0) AS likesCount,
+                   COALESCE((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID), 0) AS retweetsCount,
+                   COALESCE((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID), 0) AS savesCount,
+                   COALESCE((SELECT COUNT(*) FROM CommentsOwl c WHERE c.tweetID = t.tweetID), 0) AS commentsCount,
+                   IF((SELECT COUNT(*) FROM LikesOwl l WHERE l.tweetID = t.tweetID AND l.userID = ?), true, false) AS isLiked,
+                   IF((SELECT COUNT(*) FROM RetweetsOwl r WHERE r.tweetID = t.tweetID AND r.userID = ?), true, false) AS isRetweeted,
+                   IF((SELECT COUNT(*) FROM SavesOwl s WHERE s.tweetID = t.tweetID AND s.userID = ?), true, false) AS isSaved
+            FROM SavesOwl s
+            JOIN TweetsOwl t ON s.tweetID = t.tweetID
+            LEFT JOIN UsersOwl u ON t.userID = u.sub
+            WHERE s.userID = ?
+            ORDER BY t.creation DESC
+            `,
+            [userID, userID, userID, sub]
+        );
+
+        res.send({ status: "ok", tweets: savedTweets });
+    } catch (error) {
+        console.error('Error fetching saved tweets:', error);
+        res.status(500).send({ status: "error", message: "An error occurred while fetching saved tweets." });
     }
 });
 

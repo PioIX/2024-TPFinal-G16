@@ -11,6 +11,7 @@ const SearchPage = () => {
     const [results, setResults] = useState({ users: [], tweets: [] });
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState('');
+    const [selectedTab, setSelectedTab] = useState("users"); // Estado para la pestaña seleccionada
     const router = useRouter(); // Para redirigir a perfiles de usuario
 
     // Función que realiza la búsqueda
@@ -42,6 +43,21 @@ const SearchPage = () => {
                 <InputSearch onSearch={handleSearch} />
             </div>
 
+            <div className={styles.tabs}>
+                <button
+                    className={selectedTab === "users" ? styles.activeTab : styles.tab}
+                    onClick={() => setSelectedTab("users")}
+                >
+                    Usuarios
+                </button>
+                <button
+                    className={selectedTab === "tweets" ? styles.activeTab : styles.tab}
+                    onClick={() => setSelectedTab("tweets")}
+                >
+                    Tweets
+                </button>
+            </div>
+
             <div className={styles.resultsContainer}>
                 {loading && <p>Cargando resultados...</p>}
                 {!loading && results.users.length === 0 && results.tweets.length === 0 && query && (
@@ -49,30 +65,27 @@ const SearchPage = () => {
                 )}
                 {!loading && (
                     <div>
-                        {results.users.length > 0 && (
+                        {selectedTab === "users" && results.users.length > 0 && (
                             <>
                                 <h3>Usuarios</h3>
                                 {results.users.map(user => (
                                     <Link href={`/profilee/${user.sub}`} key={user.sub}>
-                                    <div
-                                        
-                                        className={styles.resultItem}
-                                        onClick={() => handleUserClick(user.sub)}
-                                    >
-                                        
-                                        <img src={user.picture} alt={`${user.given_name}'s avatar`} />
-                                        
-                                        <div>
-                                            <p>{user.given_name}</p>
-                                            <p>@{user.nickname}</p>
+                                        <div
+                                            className={styles.resultItem}
+                                            onClick={() => handleUserClick(user.sub)}
+                                        >
+                                            <img src={user.picture} alt={`${user.given_name}'s avatar`} />
+                                            <div>
+                                                <p>{user.given_name}</p>
+                                                <p>@{user.nickname}</p>
+                                            </div>
                                         </div>
-                                    </div>
                                     </Link>
                                 ))}
                             </>
                         )}
 
-                        {results.tweets.length > 0 && (
+                        {selectedTab === "tweets" && results.tweets.length > 0 && (
                             <>
                                 <h3>Tweets</h3>
                                 {results.tweets.map(tweet => (
@@ -94,6 +107,7 @@ const SearchPage = () => {
                                         isLiked={tweet.isLiked || false}
                                         isRetweeted={tweet.isRetweeted || false}
                                         isSaved={tweet.isSaved || false}
+                                        tweetDate={tweet.creation}
                                     />
                                 ))}
                             </>
