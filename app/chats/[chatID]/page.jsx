@@ -205,12 +205,14 @@ const ChatPage = () => {
 
                                     return (
                                         <div key={index} className={message.senderID === user.sub ? styles.myMessage : styles.otherMessage}>
-                                            <img src={message.senderPicture} alt={`${message.senderNickname}'s avatar`} className={styles.avatar} />
-                                            <div className={styles.messageContent}>
-                                                <p className={styles.nickname}>{message.senderNickname}</p>
+                                            <div className={styles.miniInfo}>
+                                                <img src={message.senderPicture} alt={`${message.senderNickname}'s avatar`} className={styles.avatar} />
+                                                <div>
+                                                    <p className={styles.nickname}>{message.senderNickname}</p>
+                                                </div>
+                                            </div>
                                                 <p className={styles.content}>{message.content}</p>
                                                 <p className={styles.timestamp}>{messageDate.toLocaleTimeString("en-US", { timeZone: 'America/Argentina/Buenos_Aires' })}</p>
-                                            </div>
                                         </div>
                                     );
                                 })

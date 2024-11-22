@@ -2,12 +2,19 @@
     background-color: transparent; /* Sin fondo */
     border  : none; /* Sin borde */
     font-size: 18px; /* Tamaño de fuente */
-    color: #238636; /* Color similar a Twitter */
+    color: #ffffff; /* Color similar a Twitter */
     cursor: pointer; /* Cambia el cursor al pasar por encima */
     padding: 10px; /* Espaciado interno */
     text-align: center; /* Alinear texto a la izquierda */
     width: 50%;
 }
-.titleButton:hover {
-    text-decoration: underline; 
+.TitleButton:hover {
+    text-decoration: none;
+    border-style: none none solid none; /* Borders: top, right, bottom, left */
+    border-top: 2px solid #238636; /* Bottom border */
+    border-right: 2px solid #238636;
+    border-left: 2px solid #238636;
+    border-bottom: none;
+    border-radius: 6px;
 }
+

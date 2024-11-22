@@ -113,190 +113,195 @@ const ProfilePage = ({ sub }) => {
             {userProfile && (
                 <>
                     {/* Header con información del usuario */}
-                    <div className={styles.header}>
-                        <img
-                            src={userProfile.picture}
-                            alt={`${userProfile.name}'s avatar`}
-                            className={styles.avatar}
-                        />
-                        <div className={styles.userInfo}>
-                            <h2>{userProfile.name}</h2>
-                            <p>@{userProfile.nickname}</p>
-                        </div>
-                    </div>
+                    <div style={{display: "flex", flexDirection: "column", alignItems: "center", alignContent:"center", width: "100%",}}>
+                        <div style={{display: "flex", flexDirection: "column", textAlign: "center", alignItems: "center", alignContent:"center"}}>
+                            <div className={styles.header}>
+                                <img
+                                    src={userProfile.picture}
+                                    alt={`${userProfile.name}'s avatar`}
+                                    className={styles.avatar}
+                                />
+                                <div className={styles.userInfo}>
+                                    <h2>{userProfile.name}</h2>
+                                    <p>@{userProfile.nickname}</p>
+                                </div>
+                            </div>
 
-                    {/* Estadísticas del usuario */}
-                    <div style={{ display: "flex", flexDirection: "row", gap: "20%" }}>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                alignContent: "center",
-                                textAlign: "center",
-                                gap: "5%",
-                            }}
-                        >
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Posts</p>
-                            <p style={{ fontSize: "1.5em" }}>{userProfile.posts || "0"}</p>
-                        </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                alignContent: "center",
-                                textAlign: "center",
-                                gap: "5%",
-                            }}
-                        >
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followers</p>
-                            <p style={{ fontSize: "1.5em" }}>{userProfile.followers || "0"}</p>
-                        </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                alignContent: "center",
-                                textAlign: "center",
-                                gap: "5%",
-                            }}
-                        >
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followed</p>
-                            <p style={{ fontSize: "1.5em" }}>{userProfile.followed || "0"}</p>
-                        </div>
-                    </div>
+                            {/* Estadísticas del usuario */}
+                            <div style={{ display: "flex", flexDirection: "row", alignContent:"center", alignItems:"center", textAlign:"center", justifyContent:"space-around", width:"100%"}}>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        alignContent: "center",
+                                        textAlign: "center",
+                                        gap: "5%",
+                                    }}
+                                >
+                                    <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Posts</p>
+                                    <p style={{ fontSize: "1.5em" }}>{userProfile.posts || "0"}</p>
+                                </div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        alignContent: "center",
+                                        textAlign: "center",
+                                        gap: "5%",
+                                    }}
+                                >
+                                    <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followers</p>
+                                    <p style={{ fontSize: "1.5em" }}>{userProfile.followers || "0"}</p>
+                                </div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        alignContent: "center",
+                                        textAlign: "center",
+                                        gap: "5%",
+                                    }}
+                                >
+                                    <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followed</p>
+                                    <p style={{ fontSize: "1.5em" }}>{userProfile.followed || "0"}</p>
+                                </div>
+                            </div>
+                            <button
+                            className={following ? styles.followButtonClicked : styles.followButton}
+                            onClick={handleFollowClick}
+                            >
+                            {following ? "Unfollow" : "Follow"}
+                            </button>
 
-                    {/* Botón de seguir */}
-                    <button
-                        className={following ? styles.followButtonClicked : styles.followButton}
-                        onClick={handleFollowClick}
-                    >
-                        {following ? "Unfollow" : "Follow"}
-                    </button>
+                            {/* Botón de seguir */}
 
-                    {/* Bio del usuario */}
-                    <div className={styles.bio}>
-                        <p>{userProfile.bio || "Este usuario aún no tiene una bio."}</p>
-                    </div>
-
-                    {/* Tabs para alternar entre Tweets, Likes y Retweets */}
-                    <div className={styles.tabs}>
-                        <button
-                            className={selectedTab === "tweets" ? styles.activeTab : styles.tab}
-                            onClick={() => setSelectedTab("tweets")}
-                        >
-                            Tweets
-                        </button>
-                        <button
-                            className={selectedTab === "likes" ? styles.activeTab : styles.tab}
-                            onClick={() => setSelectedTab("likes")}
-                        >
-                            Likes
-                        </button>
-                        <button
-                            className={selectedTab === "retweets" ? styles.activeTab : styles.tab}
-                            onClick={() => setSelectedTab("retweets")}
-                        >
-                            Retweets
-                        </button>
+                            {/* Bio del usuario */}
+                            <div style={{marginTop:"5%"}}className={styles.bio}>
+                                <p>{userProfile.bio || "Este usuario aún no tiene una bio."}</p>
+                            </div>
+                        </div>
+                        {/* Tabs para alternar entre Tweets, Likes y Retweets */}
+                        <div className={styles.tabs}>
+                            <a
+                                className={selectedTab === "tweets" ? styles.activeTab : styles.tabButton}
+                                onClick={() => setSelectedTab("tweets")}
+                            >
+                                Tweets
+                            </a>
+                            <button
+                                className={selectedTab === "likes" ? styles.activeTab : styles.tabButton}
+                                onClick={() => setSelectedTab("likes")}
+                            >
+                                Likes
+                            </button>
+                            <button
+                                className={selectedTab === "retweets" ? styles.activeTab : styles.tabButton}
+                                onClick={() => setSelectedTab("retweets")}
+                            >
+                                Retweets
+                            </button>
+                        </div>
                     </div>
 
                     {/* Renderizado condicional según la pestaña seleccionada */}
-                    {selectedTab === "tweets" && (
-                        <div className={styles.tweets}>
-                            <h3>Tweets</h3>
-                            {tweets.length > 0 ? (
-                                tweets.map((tweet) => (
-                                    <Tweet
-                                        key={tweet.tweetID}
-                                        user={{
-                                            picture: tweet.picture,
-                                            name: tweet.name,
-                                            sub: tweet.userID,
-                                        }}
-                                        userHandle={tweet.userID}
-                                        content={tweet.content}
-                                        media={tweet.mediaURL}
-                                        id={tweet.tweetID}
-                                        likesCount={tweet.likesCount}
-                                        retweetsCount={tweet.retweetsCount}
-                                        savesCount={tweet.savesCount}
-                                        commentsCount={tweet.commentsCount}
-                                        isLiked={tweet.isLiked}
-                                        isRetweeted={tweet.isRetweeted}
-                                        isSaved={tweet.isSaved}
-                                    />
-                                ))
-                            ) : (
-                                <p>Este usuario aún no ha publicado tweets.</p>
-                            )}
-                        </div>
-                    )}
+                    <div style={{display: "flex", flexDirection: "column", alignItems: "center", alignContent:"center", marginTop:"5%", width: "100%"}}>
+                        {selectedTab === "tweets" && (
+                            <div className={styles.tweets}>
+                                <h3>Tweets</h3>
+                                {tweets.length > 0 ? (
+                                    tweets.map((tweet) => (
+                                        <Tweet
+                                            key={tweet.tweetID}
+                                            user={{
+                                                picture: tweet.picture,
+                                                name: tweet.name,
+                                                sub: tweet.userID,
+                                            }}
+                                            userHandle={tweet.userID}
+                                            content={tweet.content}
+                                            media={tweet.mediaURL}
+                                            id={tweet.tweetID}
+                                            likesCount={tweet.likesCount}
+                                            retweetsCount={tweet.retweetsCount}
+                                            savesCount={tweet.savesCount}
+                                            commentsCount={tweet.commentsCount}
+                                            isLiked={tweet.isLiked}
+                                            isRetweeted={tweet.isRetweeted}
+                                            isSaved={tweet.isSaved}
+                                        />
+                                    ))
+                                ) : (
+                                    <p>Este usuario aún no ha publicado tweets.</p>
+                                )}
+                            </div>
+                        )}
 
-                    {selectedTab === "likes" && (
-                        <div className={styles.likes}>
-                            <h3>Liked Tweets</h3>
-                            {userLikes.length > 0 ? (
-                                userLikes.map((tweet) => (
-                                    <Tweet
-                                        key={tweet.tweetID}
-                                        user={{
-                                            picture: tweet.picture,
-                                            name: tweet.name,
-                                            sub: tweet.userID,
-                                        }}
-                                        userHandle={tweet.userID}
-                                        content={tweet.content}
-                                        media={tweet.mediaURL}
-                                        id={tweet.tweetID}
-                                        likesCount={tweet.likesCount}
-                                        retweetsCount={tweet.retweetsCount}
-                                        savesCount={tweet.savesCount}
-                                        commentsCount={tweet.commentsCount}
-                                        isLiked={tweet.isLiked}
-                                        isRetweeted={tweet.isRetweeted}
-                                        isSaved={tweet.isSaved}
-                                    />
-                                ))
-                            ) : (
-                                <p>Este usuario aún no ha dado likes a tweets.</p>
-                            )}
-                        </div>
-                    )}
+                        {selectedTab === "likes" && (
+                            <div className={styles.likes}>
+                                <h3>Liked Tweets</h3>
+                                {userLikes.length > 0 ? (
+                                    userLikes.map((tweet) => (
+                                        <Tweet
+                                            key={tweet.tweetID}
+                                            user={{
+                                                picture: tweet.picture,
+                                                name: tweet.name,
+                                                sub: tweet.userID,
+                                            }}
+                                            userHandle={tweet.userID}
+                                            content={tweet.content}
+                                            media={tweet.mediaURL}
+                                            id={tweet.tweetID}
+                                            likesCount={tweet.likesCount}
+                                            retweetsCount={tweet.retweetsCount}
+                                            savesCount={tweet.savesCount}
+                                            commentsCount={tweet.commentsCount}
+                                            isLiked={tweet.isLiked}
+                                            isRetweeted={tweet.isRetweeted}
+                                            isSaved={tweet.isSaved}
+                                        />
+                                    ))
+                                ) : (
+                                    <p>Este usuario aún no ha dado likes a tweets.</p>
+                                )}
+                            </div>
+                        )}
 
-                    {selectedTab === "retweets" && (
-                        <div className={styles.retweets}>
-                            <h3>Retweets</h3>
-                            {userRetweets.length > 0 ? (
-                                userRetweets.map((tweet) => (
-                                    <Tweet
-                                        key={tweet.tweetID}
-                                        user={{
-                                            picture: tweet.picture,
-                                            name: tweet.name,
-                                            sub: tweet.userID,
-                                        }}
-                                        userHandle={tweet.userID}
-                                        content={tweet.content}
-                                        media={tweet.mediaURL}
-                                        id={tweet.tweetID}
-                                        likesCount={tweet.likesCount}
-                                        retweetsCount={tweet.retweetsCount}
-                                        savesCount={tweet.savesCount}
-                                        commentsCount={tweet.commentsCount}
-                                        isLiked={tweet.isLiked}
-                                        isRetweeted={tweet.isRetweeted}
-                                        isSaved={tweet.isSaved}
-                                    />
+                        {selectedTab === "retweets" && (
+                            <div className={styles.retweets}>
+                                <h3>Retweets</h3>
+                                {userRetweets.length > 0 ? (
+                                    userRetweets.map((tweet) => (
+                                        <Tweet
+                                            key={tweet.tweetID}
+                                            user={{
+                                                picture: tweet.picture,
+                                                name: tweet.name,
+                                                sub: tweet.userID,
+                                            }}
+                                            userHandle={tweet.userID}
+                                            content={tweet.content}
+                                            media={tweet.mediaURL}
+                                            id={tweet.tweetID}
+                                            likesCount={tweet.likesCount}
+                                            retweetsCount={tweet.retweetsCount}
+                                            savesCount={tweet.savesCount}
+                                            commentsCount={tweet.commentsCount}
+                                            isLiked={tweet.isLiked}
+                                            isRetweeted={tweet.isRetweeted}
+                                            isSaved={tweet.isSaved}
+                                        />
 
-                                ))
-                            ) : (
-                                <p>Este usuario aún no ha hecho retweets.</p>
-                            )}
-                        </div>
-                    )}
+                                    ))
+                                ) : (
+                                    <p>Este usuario aún no ha hecho retweets.</p>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </>
             )}
         </div>

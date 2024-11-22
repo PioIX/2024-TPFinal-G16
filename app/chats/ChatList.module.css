@@ -50,6 +50,7 @@
 .chatItem {
     display: flex;
     align-items: center;
+    width: 100%;
     padding: 10px;
     background-color: #ffffff;
     border-radius: 10px;
@@ -57,7 +58,16 @@
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
+.chatInfo{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.miniInfo{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
 .chatItem:hover {
     transform: scale(1.02);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);

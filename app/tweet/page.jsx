@@ -7,6 +7,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import Feed from "../../components/Feed";
 import TitleButton from "../../components/TitleButton";
 import styles from "./page.module.css";
+import { BorderTop } from "@mui/icons-material";
 
 const TweetPage = () => {
     const { user, isLoading, error } = useUser();
@@ -14,7 +15,17 @@ const TweetPage = () => {
     const [typeTweets, setTypeTweets] = useState("fyp");
     const [loadingTweets, setLoadingTweets] = useState(true);
     const [fetchError, setFetchError] = useState(null);
+    const [activeButton, setActiveButton] = useState("");
     const [newTweetContent, setNewTweetContent] = useState("");
+
+    const handleFYChange = () => {
+        setActiveButton("fyp"); // Set "Para ti" as active
+    };
+
+    // Handle clicking on "Siguiendo" button
+    const handleFChange = () => {
+        setActiveButton("followees"); // Set "Siguiendo" as active
+    };
 
     useEffect(() => {
         const fetchTweets = async () => {
@@ -100,14 +111,18 @@ const TweetPage = () => {
         <div className={styles.tweetPage}>
             <div className={styles.header}>
                 <div className={styles.titleContainer}>
-                    <TitleButton text="Para ti" onClick={() => {
+                    <button className={`${styles.TitleButton} ${activeButton === "fyp" ? styles.Active : ""}`} onClick={() => {
                         setTypeTweets('fyp')
+                        handleFYChange();
                         console.log(typeTweets)
-                    }} />
-                    <TitleButton text="Siguiendo" onClick={() => {
+                    }}> Para ti
+                    </button>
+                    <button className={`${styles.TitleButton} ${activeButton === "followees" ? styles.Active : ""}`} onClick={() => {
                         setTypeTweets('followees')
+                        handleFChange();
                         console.log(typeTweets)
-                        }} />
+                    }}> Siguiendo
+                    </button>
                     <hr className={styles.Hr}></hr>
                 </div>
             </div>
