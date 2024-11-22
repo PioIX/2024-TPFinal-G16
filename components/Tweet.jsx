@@ -7,12 +7,12 @@ import Media from "./Media";
 import Interactions from "./Interactions";
 
 
-const Tweet = ({ id, user, content, media, likesCount, retweetsCount, commentsCount, savesCount, isLiked, isSaved, isRetweeted }) => {
+const Tweet = ({ id, user, content, media, likesCount, retweetsCount, commentsCount, savesCount, isLiked, isSaved, isRetweeted, tweetDate }) => {
     return (
         <div className={styles.tweet}>
             <div className={styles.InfoTweet}>
                 {user && <UserProfile user={user} />}
-                <span>5 min · 25 de octubre de 2024</span>
+                <span>{tweetDate}</span>
             </div>
             <p>{content}</p>
             {media && <Media media={media} />}
