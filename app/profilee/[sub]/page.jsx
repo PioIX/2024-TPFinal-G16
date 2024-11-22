@@ -14,7 +14,7 @@ const UserProfilePage = () => {
 
     // Maneja el caso en el que el sub no esté disponible
     if (!sub) {
-        return <div>No valid parameter found.</div>;
+        return <div>No hay un parámetro encontrado.</div>;
     }
 
     return (

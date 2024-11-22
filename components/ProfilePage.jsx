@@ -137,7 +137,7 @@ const ProfilePage = ({ sub }) => {
                                 gap: "5%",
                             }}
                         >
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Posts</p>
+                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Publicaciones</p>
                             <p style={{ fontSize: "1.5em" }}>{userProfile.posts || "0"}</p>
                         </div>
                         <div
@@ -150,7 +150,7 @@ const ProfilePage = ({ sub }) => {
                                 gap: "5%",
                             }}
                         >
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followers</p>
+                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Seguidores</p>
                             <p style={{ fontSize: "1.5em" }}>{userProfile.followers || "0"}</p>
                         </div>
                         <div
@@ -163,7 +163,7 @@ const ProfilePage = ({ sub }) => {
                                 gap: "5%",
                             }}
                         >
-                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followed</p>
+                            <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Seguidos</p>
                             <p style={{ fontSize: "1.5em" }}>{userProfile.followed || "0"}</p>
                         </div>
                     </div>

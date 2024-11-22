@@ -46,16 +46,16 @@ const StartChat = ({ userID }) => {
 
     return (
         <div className={styles.startChat}>
-            <h3>Start a New Chat</h3>
+            <h3>Empiece un nuevo chat</h3>
             <input
                 type="text"
-                placeholder="Enter nickname"
+                placeholder="Ingrese el usuario"
                 value={nickname}
                 onChange={handleChange}
                 className={styles.input}
             />
             <button onClick={handleStartChat} className={styles.button}>
-                Start Chat
+                Crear chat
             </button>
             {error && <p className={styles.error}>{error}</p>}
             {message && <p className={styles.message}>{message}</p>}
