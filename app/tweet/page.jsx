@@ -71,10 +71,22 @@ const TweetPage = () => {
 
                 const newTweet = {
                     id: tweets.length + 1,
-                    user,
+                    user: user,
                     userHandle: user?.nickname || "Usuario",
                     content: newTweetContent,
                     media: null, // Por ahora sin imágenes
+                    creation: new Date(),
+                    commentsCount: 0,
+                    isLiked: false,
+                    isRetweeted: false,
+                    isSaved: false,
+                    likesCount: 0,
+                    retweetsCount: 0,
+                    savesCount: 0,
+                    userID: user.sub,
+                    picture: user.picture,
+                    name: user.name
+
                 };
                 setTweets([newTweet, ...tweets]);
                 setNewTweetContent(""); // Limpiar el campo de input

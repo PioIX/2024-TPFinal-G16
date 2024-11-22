@@ -2,21 +2,26 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #151b23;
+    color: #ffffff;
 }
+
 .chatHeader {
     display: flex;
     align-items: center;
     padding: 10px;
-    background-color: #075e54;
-    color: #fff;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: #238636;
+    color: #ffffff;
+    border-bottom: 1px solid #1a5a28;
 }
-.chatContent{
+
+.chatContent {
     display: flex;
     flex-direction: column;
     gap: 1.5em;
+    padding: 20px;
 }
+
 .avatar {
     width: 30px;
     height: 30px;
@@ -31,76 +36,82 @@
 
 .userName {
     font-weight: bold;
+    color: #ffffff;
 }
 
 .userNickname {
-    color: #c9c9c9;
+    color: #a9a9a9;
 }
 
 .messagesContainer {
     flex: 1;
-    display: flex; /* Agrega display flex */
-    flex-direction: column; /* Apila los mensajes verticalmente */
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
-    background-color: #e5ddd5;
-    align-items: flex-start; /* Asegura que los elementos estén alineados a la izquierda por defecto */
+    background-color: #151b23;
+    align-items: flex-start;
 }
-.nickname{
-    margin: 0; /* Remove any default margin */
-    padding: 0; /* Remove padding */
-    line-height: 1; /* Ensure line height doesn't exceed font size */
+
+.nickname {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
     font-size: 0.9em;
     text-align: center;
+    color: #a9a9a9;
 }
-.miniInfo{
-    display: flex; 
-    flex-direction: row; 
-    justify-content: space-around; 
+
+.miniInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    align-content: center;
-    text-align: center; 
+    text-align: center;
 }
+
 .myMessage {
-    align-self: flex-end; /* Esto mantiene los mensajes propios a la derecha */
+    align-self: flex-end;
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-content: center;
-    justify-content: center;
-    background-color: #dcf8c6;
+    background-color: #238636;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 10px;
     margin-bottom: 10px;
-    max-width: 70%;
+    max-width: 90%;
     word-wrap: break-word;
+    color: #ffffff;
 }
 
 .otherMessage {
-    align-self: flex-start; /* Esto asegura que los mensajes de otros estén alineados a la izquierda */
+    align-self: flex-start;
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-content: center;
-    justify-content: center;
-    background-color: #fff;
+    background-color: #656565;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 10px;
     margin-bottom: 10px;
-    max-width: 70%;
+    max-width: 90%;
     word-wrap: break-word;
+    color: #000000;
 }
 
-.content{
+.content {
     font-size: 1.2em;
     margin-top: 5%;
+    color: #ffffff;
 }
-.timestamp{
+
+.timestamp {
     font-size: 0.9em;
+    color: #a9a9a9;
 }
-.input{
-    background: #151b23;
+
+.input {
+    background-color: #151b23;
     color: #ffffff;
     width: 100%;
     border-width: 1px;
@@ -109,13 +120,15 @@
 
 .link {
     margin-bottom: 2%;
+    color: #238636;
+}
 
 .inputContainer {
     gap: 2%;
     display: flex;
     padding: 10px;
     background-color: #151b23;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #1a5a28;
     border-radius: 10px;
 }
 
@@ -123,15 +136,22 @@
     flex: 1;
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #238636;
     margin-right: 10px;
+    background-color: #151b23;
+    color: #ffffff;
 }
 
 .sendButton {
     padding: 10px 20px;
-    background-color: #075e54;
-    color: #fff;
+    background-color: #238636;
+    color: #ffffff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sendButton:hover {
+    background-color: #1a5a28;
 }

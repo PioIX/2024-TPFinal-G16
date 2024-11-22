@@ -68,7 +68,7 @@ const ChatsPage = () => {
                         let chatDate = new Date(chat.creation);
                         chatDate.setHours(chatDate.getHours() - 3);
                         
-                        return (<Link key={chat.chatID} href={`/chats/${chat.chatID}`}>
+                        return (<Link key={chat.chatID} href={`/chats/${chat.chatID}`} className={styles.link}>
                         <div className={styles.chatItem}>
                             <div className={styles.chatInfo}>
                                 <img src={chat.picture} alt={`${chat.givenName}'s avatar`} className={styles.avatar} />

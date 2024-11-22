@@ -9,7 +9,7 @@ import Interactions from "./Interactions";
 
 const Tweet = ({ id, user, content, media, likesCount, retweetsCount, commentsCount, savesCount, isLiked, isSaved, isRetweeted, tweetDate }) => {
     let tweetFinalDate = new Date(tweetDate);
-    tweetFinalDate.setHours(tweetFinalDate.getHours() - 3);
+
     return (
         <div className={styles.tweet}>
             <div className={styles.InfoTweet}>

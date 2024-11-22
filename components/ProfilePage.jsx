@@ -155,17 +155,22 @@ const ProfilePage = ({ sub }) => {
                             <p style={{ fontSize: "1.3em", fontWeight: "700" }}>Followed</p>
                             <p style={{ fontSize: "1.5em" }}>{followees || "0"}</p>
                         </div>
-                    </div>
 
-                    {/* Botón de seguir (solo si el perfil no es del usuario actual) */}
+                        {/* Botón de seguir (solo si el perfil no es del usuario actual) */}
                     {sub !== user.sub && (
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5%" }}>
                         <button
                             className={following ? styles.followButtonClicked : styles.followButton}
                             onClick={handleFollowClick}
+                            style={{ fontSize: "1.1em" }}
                         >
                             {following ? "Unfollow" : "Follow"}
                         </button>
+                        </div>
                     )}
+                    </div>
+
+                    
 
                     {/* Tabs para alternar entre Tweets, Likes, Retweets y Saves (si es el perfil del usuario actual) */}
                     <div className={styles.tabs}>

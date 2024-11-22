@@ -25,7 +25,7 @@
 }
 
 .header button {
-    background-color: #007bff;
+    background-color: #238636;
     color: white;
     border: none;
     border-radius: 5px;
@@ -35,7 +35,7 @@
 }
 
 .header button:hover {
-    background-color: #0056b3;
+    background-color: #1a5a28;
 }
 
 .chatsContainer {
@@ -103,4 +103,17 @@
     color: #999;
     align-self: flex-end;
     margin-top: 5px;
+}
+
+.link {
+    color: black;
+}
+
+.link:hover {
+    color: black;
+}
+
+
+.chatsPage {
+    color: white;
 }

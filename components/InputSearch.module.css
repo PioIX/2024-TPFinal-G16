@@ -12,7 +12,7 @@
 
 .Input:focus {
     outline: none;
-    border-color: #0073e6;
+    border-color: #238636;
 }
 
 .Input::placeholder {
