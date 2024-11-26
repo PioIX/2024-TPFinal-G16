@@ -157,75 +157,82 @@ const NavBar = () => {
                   className="d-md-none justify-content-between"
                   navbar
                   data-testid="navbar-menu-mobile">
-                  <UncontrolledDropdown nav inNavbar data-testid="navbar-menu-desktop" >
-                    <div style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
-                      <div style={{display: "flex", flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
-                        <NavItem>
-                            <img style={{width:"80px", height:"50px", borderRadius:"30px", marginLeft: "0.5em", marginTop:"1.3em"}} src={"/images/logo.png"}></img>
-                        </NavItem>
-                        <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-                          <DropdownToggle style={{display:"flex", alignContent: "center", alignItems:"center"}}nav caret id="profileDropDown">
-                            <img
-                              src={"/images/menu.png"}
-                              alt="Profile"
-                              className="nav-user-profile rounded-circle p-0 m-0"
-                              width="50"
-                              height="50"
-                              decode="async"
-                              data-testid="navbar-picture-desktop"
-                            />
-                          </DropdownToggle>
-                      </div>
-                        <DropdownMenu style={{backgroundColor: "#151b23", color: '#238636', zIndex: "9999"}}>
-                              <div style={{display:"flex", width:"100%", gap:"7%", flexDirection:"column", alignItems:"center", textAlign:"center", justifyContent:"space-around"}}>
-                                    <NavItem>
-                                      <div onClick={handleImageHomeChange} style={{ cursor: 'pointer', display: 'inline-block'}}>
-                                        <PageLink href="/tweet" className="nav-link p-0 m-0" testId="navbar-csr">
-                                            <img style={{width:"30px", height:"30px"}} src={imageHome}></img>
-                                        </PageLink>
-                                      </div>
-                                    </NavItem>
-                                    <NavItem>
-                                      <div onClick={handleImageLupaChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                                        <PageLink href="/search" className="nav-link p-0 m-0" testId="navbar-external">
-                                            <img style={{width:"30px", height:"30px"}} src={imageLupa}/>
-                                        </PageLink>
-                                      </div>
-                                    </NavItem>
-                                    <NavItem>
-                                      <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
-                                        <PageLink href="/chats" className="nav-link p-0 m-0" testId="navbar-external">
-                                          <img style={{width:"30px", height:"30px"}} src={imageChat}></img>
-                                        </PageLink>
-                                      </div>
-                                    </NavItem>  
-                          </div>
-                          <DropdownItem style={{color: '#ffffff'}} header data-testid="navbar-user-desktop">
-                            {user.name}
-                          </DropdownItem>
-                            <NavItem className={styles.profilePicture}>
-                              <img style={{width:"50px", height:"50px", borderRadius:"30px"}} src={user.picture}></img>
-                            </NavItem>
-                          <div className={styles.Squarelink} style={{width: "100%"}}>
-                            <DropdownItem className="dropdown-profile" tag="span">
-                              <PageLink href="/profilee" icon="user" className={styles.link} testId="navbar-profile-desktop" userSub={user.sub}>
-                                      Profile
-                              </PageLink>
-                            </DropdownItem>
-                          </div>
-                          <div className={styles.Squarelink} style={{width: "100%"}}>
-                            <DropdownItem id="qsLogoutBtn">
-                              <AnchorLink href="/api/auth/logout" className={styles.link} icon="power-off" testId="navbar-logout-desktop">
-                                    Log out
-                              </AnchorLink>
-                            </DropdownItem>
-                          </div>
-                        </DropdownMenu>
-                      </div>
-                    </div>
-                    </UncontrolledDropdown>
                 </Nav>
               )}
+              <Nav
+                  id="nav-mobile"
+                  style={{background:"transparent", border:"none", padding:"0",color:"#ffffff"}}
+                  className="d-md-none justify-content-between"
+                  navbar
+                  data-testid="navbar-menu-mobile">
+                <UncontrolledDropdown nav inNavbar data-testid="navbar-menu-desktop" >
+                      <div style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
+                        <div style={{display: "flex", flexDirection:"row", alignItems:"center", justifyContent:"center"}}>
+                          <NavItem>
+                              <img style={{width:"80px", height:"50px", borderRadius:"30px", marginLeft: "0.5em", marginTop:"1.3em"}} src={"/images/logo.png"}></img>
+                          </NavItem>
+                          <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                            <DropdownToggle style={{display:"flex", alignContent: "center", alignItems:"center"}}nav caret id="profileDropDown">
+                              <img
+                                src={"/images/menu.png"}
+                                alt="Profile"
+                                className="nav-user-profile rounded-circle p-0 m-0"
+                                width="50"
+                                height="50"
+                                decode="async"
+                                data-testid="navbar-picture-desktop"
+                              />
+                            </DropdownToggle>
+                        </div>
+                          <DropdownMenu style={{backgroundColor: "#151b23", color: '#238636', zIndex: "9999"}}>
+                                <div style={{display:"flex", width:"100%", gap:"7%", flexDirection:"column", alignItems:"center", textAlign:"center", justifyContent:"space-around"}}>
+                                      <NavItem>
+                                        <div onClick={handleImageHomeChange} style={{ cursor: 'pointer', display: 'inline-block'}}>
+                                          <PageLink href="/tweet" className="nav-link p-0 m-0" testId="navbar-csr">
+                                              <img style={{width:"30px", height:"30px"}} src={imageHome}></img>
+                                          </PageLink>
+                                        </div>
+                                      </NavItem>
+                                      <NavItem>
+                                        <div onClick={handleImageLupaChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                                          <PageLink href="/search" className="nav-link p-0 m-0" testId="navbar-external">
+                                              <img style={{width:"30px", height:"30px"}} src={imageLupa}/>
+                                          </PageLink>
+                                        </div>
+                                      </NavItem>
+                                      <NavItem>
+                                        <div onClick={handleImageChatChange} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                                          <PageLink href="/chats" className="nav-link p-0 m-0" testId="navbar-external">
+                                            <img style={{width:"30px", height:"30px"}} src={imageChat}></img>
+                                          </PageLink>
+                                        </div>
+                                      </NavItem>  
+                            </div>
+                            <DropdownItem style={{color: '#ffffff'}} header data-testid="navbar-user-desktop">
+                              {user.name}
+                            </DropdownItem>
+                              <NavItem className={styles.profilePicture}>
+                                <img style={{width:"50px", height:"50px", borderRadius:"30px"}} src={user.picture}></img>
+                              </NavItem>
+                            <div className={styles.Squarelink} style={{width: "100%"}}>
+                              <DropdownItem className="dropdown-profile" tag="span">
+                                <PageLink href="/profilee" icon="user" className={styles.link} testId="navbar-profile-desktop" userSub={user.sub}>
+                                        Profile
+                                </PageLink>
+                              </DropdownItem>
+                            </div>
+                            <div className={styles.Squarelink} style={{width: "100%"}}>
+                              <DropdownItem id="qsLogoutBtn">
+                                <AnchorLink href="/api/auth/logout" className={styles.link} icon="power-off" testId="navbar-logout-desktop">
+                                      Log out
+                                </AnchorLink>
+                              </DropdownItem>
+                            </div>
+                          </DropdownMenu>
+                        </div>
+                      </div>
+                    </UncontrolledDropdown>
+                </Nav>
             </Nav>
           </Collapse>
         </Container>
